@@ -33,7 +33,7 @@ public class AutoMode extends LinearOpMode {
 
         move(1, 0, 0);
 
-        sleep(2000);
+        sleep(1500);
 
         move(0, 1, 0);
         sleep(2000);
