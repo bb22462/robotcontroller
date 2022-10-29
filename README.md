@@ -1,6 +1,6 @@
 # FTC Robot Controller
  Robot Controller для FTC. Сделано командой Bad Bats. 
-# Планы
+# Задачи
 
 СМИ:
 1. Посты о соревновании.
@@ -17,9 +17,15 @@
 Программисты:
 1. Изучить работу серво-моторов.
 2. Сделать управление манипулятором.
-	<details><summary>Схема управления манипулятором</summary>
+	<details><summary><b>Схема управления манипулятором</b></summary>
 
 	<img src="/images/game-controller-profiles.png"/>
+	
+	4. Закрыть руку
+	5. Вниз
+	6. Вверх
+	7. Открыть руку
+
 
 	</details>
 
