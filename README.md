@@ -17,9 +17,10 @@
 Программисты:
 1. Изучить работу серво-моторов.
 2. Сделать управление манипулятором.
-	<details><summary><b>Схема управления манипулятором</b></summary>
+	<details>
+	<summary><b>Схема управления манипулятором</b></summary>
 
-	<img src="/images/game-controller-profiles.png"/>
+	<img src="/images/game-controller-profiles.png">
 	
 	4. Закрыть руку
 	5. Вниз
