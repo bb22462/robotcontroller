@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Basic: Omni Linear OpMode (Testing)", group="Linear Opmode")
 public class BasicOmniOpMode_Testing extends LinearOpMode {
 
-    // Declare OpMode members for each of the 4 motors.
+    // Declare OpMode members for each motor and servo
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFrontDrive = null;
     private DcMotor leftBackDrive = null;
@@ -88,11 +88,9 @@ public class BasicOmniOpMode_Testing extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            // TODO Make hand control with sticks
             double max;
 
             double handServoPos = handServo.getPosition();
-            int upDrivePos = upDrive.getCurrentPosition();
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
@@ -137,44 +135,17 @@ public class BasicOmniOpMode_Testing extends LinearOpMode {
                 }
             }
 
-            if (gamepad2.y) {
-                upDrive.setPower(0.5);
-            }
-
-            else if (gamepad2.a) {
-                upDrive.setPower(-0.3);
-            }
-            else {
-                upDrive.setPower(0);
-            }
-
-
-            // This is test code:
-            //
-            // Uncomment the following code to test your motor directions.
-            // Each button should make the corresponding motor run FORWARD.
-            //   1) First get all the motors to take to correct positions on the robot
-            //      by adjusting your Robot Configuration if necessary.
-            //   2) Then make sure they run in the correct direction by modifying the
-            //      the setDirection() calls above.
-            // Once the correct motors move in the correct direction re-comment this code.
-
-            /*
-            leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
-            leftBackPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
-            rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
-            rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
-            */
+            // Dividing stick position to slow down motor and setting power
+            upDrive.setPower(-gamepad2.right_stick_y / 2.5);
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower / 1.5);
             rightFrontDrive.setPower(rightFrontPower / 1.5);
             leftBackDrive.setPower(leftBackPower / 1.5);
             rightBackDrive.setPower(rightBackPower / 1.5);
-            upDrive.setPower(-gamepad2.right_stick_y / 2.5);
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("UpDrive", "UpDrive Position: " + String.valueOf(upDrivePos));
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.update();
