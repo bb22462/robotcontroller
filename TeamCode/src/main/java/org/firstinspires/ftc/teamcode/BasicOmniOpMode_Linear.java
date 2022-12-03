@@ -13,30 +13,30 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
  * The names of OpModes appear on the menu of the FTC Driver Station.
  * When a selection is made from the menu, the corresponding OpMode is executed.
- *
+ * <p>
  * This particular OpMode illustrates driving a 4-motor Omni-Directional (or Holonomic) robot.
  * This code will work with either a Mecanum-Drive or an X-Drive train.
  * Both of these drives are illustrated at https://gm0.org/en/latest/docs/robot-design/drivetrains/holonomic.html
  * Note that a Mecanum drive must display an X roller-pattern when viewed from above.
- *
+ * <p>
  * Also note that it is critical to set the correct rotation direction for each motor.  See details below.
- *
+ * <p>
  * Holonomic drives provide the ability for the robot to move in three axes (directions) simultaneously.
  * Each motion axis is controlled by one Joystick axis.
- *
+ * <p>
  * 1) Axial:    Driving forward and backward               Left-joystick Forward/Backward
  * 2) Lateral:  Strafing right and left                     Left-joystick Right and Left
  * 3) Yaw:      Rotating Clockwise and counter clockwise    Right-joystick Right and Left
- *
+ * <p>
  * This code is written assuming that the right-side motors need to be reversed for the robot to drive forward.
  * When you first test your robot, if it moves backward when you push the left stick forward, then you must flip
  * the direction of all 4 motors (see code below).
- *
+ * <p>
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Omni Linear OpMode (Testing)", group="Linear Opmode")
+@TeleOp(name = "Basic: Omni Linear OpMode (Testing)", group = "Linear Opmode")
 public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members for each motor and servo
@@ -55,8 +55,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive"); // Motor 3
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive"); // Motor 0
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive"); // Motor 3
+        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive"); // Motor 0
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive"); // Motor 2
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         upDrive = hardwareMap.get(DcMotor.class, "up_drive"); // Drive to move robot's hand up and down
@@ -93,16 +93,16 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double handServoPos = handServo.getPosition();
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral =  gamepad1.left_stick_x;
-            double yaw     =  gamepad1.right_stick_x;
+            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral + yaw;
+            double leftFrontPower = axial + lateral + yaw;
             double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial + lateral - yaw;
+            double leftBackPower = axial - lateral + yaw;
+            double rightBackPower = axial + lateral - yaw;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -111,17 +111,16 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
 
             if (max > 1.0) {
-                leftFrontPower  /= max;
+                leftFrontPower /= max;
                 rightFrontPower /= max;
-                leftBackPower   /= max;
-                rightBackPower  /= max;
+                leftBackPower /= max;
+                rightBackPower /= max;
             }
 
             if (gamepad2.b) {
                 if (handServoPos == MAX_POS) {
                     System.out.println("Hand is already opened.");
-                }
-                else {
+                } else {
                     handServo.setPosition(1.0);
                 }
             }
@@ -129,8 +128,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             if (gamepad2.x) {
                 if (handServoPos == MIN_POS) {
                     System.out.println("Hand is already closed.");
-                }
-                else {
+                } else {
                     handServo.setPosition(0.0);
                 }
             }
@@ -150,6 +148,5 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.update();
         }
-    }}
-
-    // Yes 
+    }
+}
