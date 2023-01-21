@@ -88,7 +88,7 @@ public class OpMode extends LinearOpMode {
                 rightBackPower /= max;
             }
 
-            if (gamepad2.b) {
+            if (gamepad1.b) {
                 if (robot.manipulator.leftHandServo.getPosition() == MAX_POS && robot.manipulator.leftHandServo.getPosition() == MAX_POS) {
                     System.out.println("Hand is already opened.");
                 } else {
@@ -96,12 +96,24 @@ public class OpMode extends LinearOpMode {
                 }
             }
 
-            if (gamepad2.x) {
+           else if (gamepad1.x) {
                 if (robot.manipulator.leftHandServo.getPosition() == MIN_POS && robot.manipulator.leftHandServo.getPosition() == MIN_POS) {
                     System.out.println("Hand is already closed.");
                 } else {
                     robot.manipulator.setPos(0.0);
                 }
+            }
+
+           if (gamepad1.dpad_up) {
+               robot.lift.setPower(0.5);
+               sleep(1);
+               robot.lift.setPower(0);
+           }
+
+            if (gamepad1.dpad_down) {
+                robot.lift.setPower(-0.5);
+                sleep(1);
+                robot.lift.setPower(0);
             }
 
             // Dividing stick position to slow down motor and setting power
