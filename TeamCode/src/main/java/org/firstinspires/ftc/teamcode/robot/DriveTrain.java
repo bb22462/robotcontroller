@@ -14,8 +14,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class DriveTrain {
     // Declare each motor in drivetrain
     public DcMotor leftFrontDrive = null;
-    public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
+    public DcMotor leftBackDrive = null;
     public DcMotor rightBackDrive = null;
     Robot robot;
 
@@ -25,19 +25,19 @@ public class DriveTrain {
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
         leftFrontDrive = robot.linearOpMode.hardwareMap.get(DcMotor.class, "left_front_drive"); // Motor 3
-        leftBackDrive = robot.linearOpMode.hardwareMap.get(DcMotor.class, "left_back_drive"); // Motor 0
         rightFrontDrive = robot.linearOpMode.hardwareMap.get(DcMotor.class, "right_front_drive"); // Motor 2
+        leftBackDrive = robot.linearOpMode.hardwareMap.get(DcMotor.class, "left_back_drive"); // Motor 0
         rightBackDrive = robot.linearOpMode.hardwareMap.get(DcMotor.class, "right_back_drive"); // Motor 1
 
         // Most robots need the motors on one side to be reversed to drive forward.
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
@@ -53,5 +53,12 @@ public class DriveTrain {
         rightFrontDrive.setPower(power);
         leftBackDrive.setPower(power);
         rightBackDrive.setPower(power);
+    }
+
+    public void setPowerAll(double leftFrontPower, double rightFrontPower, double leftBackPower, double rightBackPower){
+        leftFrontDrive.setPower(leftFrontPower);
+        rightFrontDrive.setPower(rightFrontPower);
+        leftBackDrive.setPower(leftBackPower);
+        rightBackDrive.setPower(rightBackPower);
     }
 }
