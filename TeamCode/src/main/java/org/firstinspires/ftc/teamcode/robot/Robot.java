@@ -13,8 +13,8 @@ public class Robot {
 
     public Robot(LinearOpMode linearOpMode1) {
         linearOpMode = linearOpMode1;
-        driveTrain = new DriveTrain();
-        lift = new Lift();
-        manipulator = new Manipulator();
+        driveTrain = new DriveTrain(this);
+        lift = new Lift(this);
+        manipulator = new Manipulator(this);
     }
 }

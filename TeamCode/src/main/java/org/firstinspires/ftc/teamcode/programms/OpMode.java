@@ -48,6 +48,8 @@ public class OpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        robot = new Robot(this);
+
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -120,7 +122,7 @@ public class OpMode extends LinearOpMode {
             robot.lift.setPower(-gamepad2.right_stick_y / 2.5);
 
             // Send calculated power to wheels
-            robot.driveTrain.setPower(leftFrontPower / 1.5);
+            robot.driveTrain.setPower(leftFrontPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
