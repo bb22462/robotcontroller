@@ -48,7 +48,7 @@ public class DriveTrain {
         rightBackDrive.setPower(forward + side - rotation);
     }
 
-    public void setPower(double power){
+    public void setPowerAll(double power){
         leftFrontDrive.setPower(power);
         rightFrontDrive.setPower(power);
         leftBackDrive.setPower(power);
