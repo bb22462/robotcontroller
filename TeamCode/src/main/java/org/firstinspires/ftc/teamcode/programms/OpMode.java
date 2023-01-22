@@ -107,24 +107,22 @@ public class OpMode extends LinearOpMode {
             }
 
            if (gamepad1.dpad_up) {
-               robot.lift.setPower(1);
+               robot.lift.setPower(0.5);
                sleep(1);
                robot.lift.setPower(0);
            }
 
             if (gamepad1.dpad_down) {
-                robot.lift.setPower(-1);
+                robot.lift.setPower(-0.5);
                 sleep(1);
                 robot.lift.setPower(0);
             }
 
             // Dividing stick position to slow down motor and setting power
+            robot.lift.setPower(-gamepad2.right_stick_y / 2.5);
 
             // Send calculated power to wheels
-            robot.driveTrain.leftFrontDrive.setPower(leftFrontPower);
-            robot.driveTrain.leftBackDrive.setPower(leftBackPower);
-            robot.driveTrain.rightFrontDrive.setPower(rightFrontPower);
-            robot.driveTrain.rightBackDrive.setPower(rightBackPower);
+            robot.driveTrain.setPower(leftFrontPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
