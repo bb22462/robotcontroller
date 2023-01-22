@@ -9,9 +9,7 @@ public class Manipulator {
     public Servo rightHandServo = null;
     Robot robot;
 
-    public Manipulator(Robot robot1) {
-        robot = robot1;
-
+    public Manipulator() {
         leftHandServo = robot.linearOpMode.hardwareMap.get(Servo.class, "left_hand_servo");
         rightHandServo = robot.linearOpMode.hardwareMap.get(Servo.class, "right_hand_servo");
 
