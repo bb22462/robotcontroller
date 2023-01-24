@@ -15,7 +15,7 @@ public class Manipulator {
         robot = robot1;
 
         leftManipulatorServo = robot.linearOpMode.hardwareMap.get(Servo.class, "left_manipulator_servo");
-        rightManipulatorServo = robot.linearOpMode.hardwareMap.get(Servo.class, "right_manipulator_servRo");
+        rightManipulatorServo = robot.linearOpMode.hardwareMap.get(Servo.class, "right_manipulator_servo");
 
         rightManipulatorServo.setDirection(Servo.Direction.REVERSE);
         leftManipulatorServo.setDirection(Servo.Direction.FORWARD);
@@ -24,31 +24,6 @@ public class Manipulator {
     public void setPos(double pos) {
         leftManipulatorServo.setPosition(pos);
         rightManipulatorServo.setPosition(pos);
-    }
-
-    public void CloseOpen() {
-        double leftManipulatorPos = leftManipulatorServo.getPosition();
-        double rightManipulatorPos = rightManipulatorServo.getPosition();
-        if (leftManipulatorPos > MIN_POS && rightManipulatorPos > MIN_POS) {
-            setPos(0.0);
-        } else {
-            setPos(0.3);
-        }
-
-    }
-
-    public void CloseOpen(int action) {
-        double leftManipulatorPos = leftManipulatorServo.getPosition();
-        double rightManipulatorPos = rightManipulatorServo.getPosition();
-        switch (action) {
-            case 1:
-                setPos(0.0);
-                break;
-            case 2:
-                setPos(0.3);
-                break;
-        }
-
     }
 
 }
