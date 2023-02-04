@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.programms;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
@@ -14,11 +15,14 @@ public class OpModeOneDriver extends LinearOpMode {
     Robot robot;
     private final double MAX_POS = 1.0;
     private final double MIN_POS = 0.0;
+    public Servo leftManipulatorServo = null;
+    public Servo rightManipulatorServo = null;
 
     @Override
     public void runOpMode() {
 
         robot = new Robot(this);
+
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -64,7 +68,7 @@ public class OpModeOneDriver extends LinearOpMode {
                 if (robot.manipulator.leftManipulatorServo.getPosition() == MAX_POS && robot.manipulator.leftManipulatorServo.getPosition() == MAX_POS) {
                     System.out.println("Manipulator is already opened.");
                 } else {
-                    robot.manipulator.setPos(0.3);
+                    robot.manipulator.setPos(0.2);
                 }
             }
 

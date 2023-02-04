@@ -17,8 +17,8 @@ public class Manipulator {
         leftManipulatorServo = robot.linearOpMode.hardwareMap.get(Servo.class, "left_manipulator_servo");
         rightManipulatorServo = robot.linearOpMode.hardwareMap.get(Servo.class, "right_manipulator_servo");
 
-        rightManipulatorServo.setDirection(Servo.Direction.REVERSE);
-        leftManipulatorServo.setDirection(Servo.Direction.FORWARD);
+        rightManipulatorServo.setDirection(Servo.Direction.FORWARD);
+        leftManipulatorServo.setDirection(Servo.Direction.REVERSE);
     }
 
     public void setPos(double pos) {
