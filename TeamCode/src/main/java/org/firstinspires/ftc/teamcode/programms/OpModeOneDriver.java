@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 @TeleOp(name = "OpMode [1 Driver]", group = "Linear Opmode")
 public class OpModeOneDriver extends LinearOpMode {
 
-    // Declare OpMode members for each motor and servo
     private ElapsedTime runtime = new ElapsedTime();
     Robot robot;
     private final double MAX_POS = 1.0;
