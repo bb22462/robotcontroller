@@ -1,17 +1,8 @@
 package org.firstinspires.ftc.teamcode.robot;
 
-
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
-
-
-public class DriveTrain {
+public class WheelBase {
     // Declare each motor in drivetrain
     public DcMotor leftFrontDrive = null;
     public DcMotor rightFrontDrive = null;
@@ -20,7 +11,7 @@ public class DriveTrain {
     Robot robot;
 
 
-    public DriveTrain(Robot robot1) {
+    public WheelBase(Robot robot1) {
         robot = robot1;
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.

@@ -25,23 +25,23 @@ public class AutonomousLeftNew extends LinearOpMode {
         sleep(1000);
 
         // Drive closer to the ground
-        robot.driveTrain.move(1, 0, 0);
+        robot.wheelBase.move(1, 0, 0);
         sleep(500);
-        robot.driveTrain.move(0, 0, 0);
+        robot.wheelBase.move(0, 0, 0);
 
         // Open the manipulator
         robot.manipulator.setPos(0.2);
         sleep(1000);
 
         // Drive backwards
-        robot.driveTrain.move(-1, 0, 0);
+        robot.wheelBase.move(-1, 0, 0);
         sleep(300);
-        robot.driveTrain.move(0, 0, 0);
+        robot.wheelBase.move(0, 0, 0);
 
         // Drive to the parking
-        robot.driveTrain.move(0, -1, 0);
+        robot.wheelBase.move(0, -1, 0);
         sleep(600);
-        robot.driveTrain.move(0, 0, 0);
+        robot.wheelBase.move(0, 0, 0);
 
 
     }

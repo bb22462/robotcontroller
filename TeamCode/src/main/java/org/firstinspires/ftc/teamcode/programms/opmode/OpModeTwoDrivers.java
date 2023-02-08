@@ -76,7 +76,7 @@ public class OpModeTwoDrivers extends LinearOpMode {
 
 
             // Send calculated power to wheels
-            robot.driveTrain.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+            robot.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());

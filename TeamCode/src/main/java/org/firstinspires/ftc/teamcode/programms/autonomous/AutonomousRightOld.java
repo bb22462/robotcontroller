@@ -18,7 +18,7 @@ public class AutonomousRightOld extends LinearOpMode {
         waitForStart();
 
 
-        robot.driveTrain.move(0, 1, 0);
+        robot.wheelBase.move(0, 1, 0);
         sleep(1500);
 
 

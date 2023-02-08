@@ -90,7 +90,7 @@ public class OpModeOneDriver extends LinearOpMode {
             // Dividing stick position to slow down motor and setting power
 
             // Send calculated power to wheels
-            robot.driveTrain.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+            robot.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
