@@ -1,13 +1,12 @@
-package org.firstinspires.ftc.teamcode.programms;
+package org.firstinspires.ftc.teamcode.programms.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-@Autonomous(name="Autonomous Left [OLD]")
-public class AutonomousLeftOld extends LinearOpMode {
+@Autonomous(name="Autonomous Right [OLD]")
+public class AutonomousRightOld extends LinearOpMode {
 
     Robot robot;
     private final double MAX_POS = 1.0;
@@ -19,7 +18,7 @@ public class AutonomousLeftOld extends LinearOpMode {
         waitForStart();
 
 
-        robot.driveTrain.move(0, -1, 0);
+        robot.driveTrain.move(0, 1, 0);
         sleep(1500);
 
 

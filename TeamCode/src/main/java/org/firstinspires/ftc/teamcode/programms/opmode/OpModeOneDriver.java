@@ -1,24 +1,27 @@
-package org.firstinspires.ftc.teamcode.programms;
+package org.firstinspires.ftc.teamcode.programms.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-@TeleOp(name = "OpMode [2 Drivers]", group = "Linear Opmode")
-public class OpModeTwoDrivers extends LinearOpMode {
+@TeleOp(name = "OpMode [1 Driver]", group = "Linear Opmode")
+public class OpModeOneDriver extends LinearOpMode {
 
-    // Declare OpMode members for each motor and servo
     private ElapsedTime runtime = new ElapsedTime();
     Robot robot;
     private final double MAX_POS = 1.0;
     private final double MIN_POS = 0.0;
+    public Servo leftManipulatorServo = null;
+    public Servo rightManipulatorServo = null;
 
     @Override
     public void runOpMode() {
 
         robot = new Robot(this);
+
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -30,10 +33,6 @@ public class OpModeTwoDrivers extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double max;
-
-            double rightManipulatorServoPos = robot.manipulator.rightManipulatorServo.getPosition();
-            double leftManipulatorServoPos = robot.manipulator.leftManipulatorServo.getPosition();
-
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
@@ -60,23 +59,33 @@ public class OpModeTwoDrivers extends LinearOpMode {
                 rightBackPower /= max;
             }
 
-            if (gamepad2.b) {
-                if (robot.manipulator.leftManipulatorServo.getPosition() == MAX_POS && robot.manipulator.leftManipulatorServo.getPosition() == MAX_POS) {
+            if (gamepad1.b) {
+                if (robot.manipulator.leftManipulatorServo.getPosition() == MAX_POS && robot.manipulator.rightManipulatorServo.getPosition() == MAX_POS) {
                     System.out.println("Manipulator is already opened.");
                 } else {
-                    robot.manipulator.setPos(0.3);
+                    robot.manipulator.setPos(0.2);
                 }
             }
 
-           else if (gamepad2.x) {
-                if (robot.manipulator.leftManipulatorServo.getPosition() == MIN_POS && robot.manipulator.leftManipulatorServo.getPosition() == MIN_POS) {
+            else if (gamepad1.x) {
+                if (robot.manipulator.leftManipulatorServo.getPosition() == MIN_POS && robot.manipulator.rightManipulatorServo.getPosition() == MIN_POS) {
                     System.out.println("Manipulator is already closed.");
                 } else {
                     robot.manipulator.setPos(0.0);
                 }
             }
 
-           robot.lift.setPower(gamepad2.right_stick_y);
+           if (gamepad1.dpad_up) {
+               robot.lift.setPower(1);
+               sleep(1);
+               robot.lift.setPower(0);
+           }
+
+            if (gamepad1.dpad_down) {
+                robot.lift.setPower(-1);
+                sleep(1);
+                robot.lift.setPower(0);
+            }
 
             // Dividing stick position to slow down motor and setting power
 

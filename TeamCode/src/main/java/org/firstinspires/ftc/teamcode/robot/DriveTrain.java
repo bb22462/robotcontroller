@@ -41,11 +41,18 @@ public class DriveTrain {
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void move(double forward, double side, double rotation){
-        leftFrontDrive.setPower(forward + side + rotation);
-        rightFrontDrive.setPower(forward - side - rotation);
-        leftBackDrive.setPower(forward - side + rotation);
-        rightBackDrive.setPower(forward + side - rotation);
+    /* Directions:
+    * 1 - Forward
+    * -1 - Backwards
+    *
+    * Side:
+    * 1 - Right
+    * -1 - Left */
+    public void move(double direction, double side, double rotation){
+        leftFrontDrive.setPower(direction + side + rotation);
+        rightFrontDrive.setPower(direction - side - rotation);
+        leftBackDrive.setPower(direction - side + rotation);
+        rightBackDrive.setPower(direction + side - rotation);
     }
 
     public void setPowerAll(double power){
