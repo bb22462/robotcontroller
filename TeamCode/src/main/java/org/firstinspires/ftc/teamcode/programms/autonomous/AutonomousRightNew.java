@@ -26,7 +26,7 @@ public class AutonomousRightNew extends LinearOpMode {
         sleep(1000);
 
         // Drive closer to the ground
-        robot.wheelBase.move(1, 0, 0);
+        robot.wheelBase.move(0.5, 0, 0);
         sleep(500);
         robot.wheelBase.move(0, 0, 0);
 
@@ -35,12 +35,12 @@ public class AutonomousRightNew extends LinearOpMode {
         sleep(1000);
 
         // Drive backwards
-        robot.wheelBase.move(-1, 0, 0);
+        robot.wheelBase.move(-0.7, 0, 0);
         sleep(300);
         robot.wheelBase.move(0, 0, 0);
 
         // Drive to the parking
-        robot.wheelBase.move(0, 1, 0);
+        robot.wheelBase.move(0, 0.7, 0);
         sleep(600);
         robot.wheelBase.move(0, 0, 0);
 
