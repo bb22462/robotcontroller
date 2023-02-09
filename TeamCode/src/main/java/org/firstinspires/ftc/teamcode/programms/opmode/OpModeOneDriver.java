@@ -61,7 +61,7 @@ public class OpModeOneDriver extends LinearOpMode {
 
             if (gamepad1.b) {
                 if (robot.manipulator.leftManipulatorServo.getPosition() == MAX_POS && robot.manipulator.rightManipulatorServo.getPosition() == MAX_POS) {
-                    System.out.println("Manipulator is already opened.");
+                    System.out.println("Manipulator is already closed.");
                 } else {
                     robot.manipulator.setPos(0.2);
                 }
@@ -69,7 +69,7 @@ public class OpModeOneDriver extends LinearOpMode {
 
             else if (gamepad1.x) {
                 if (robot.manipulator.leftManipulatorServo.getPosition() == MIN_POS && robot.manipulator.rightManipulatorServo.getPosition() == MIN_POS) {
-                    System.out.println("Manipulator is already closed.");
+                    System.out.println("Manipulator is already opened.");
                 } else {
                     robot.manipulator.setPos(0.0);
                 }
