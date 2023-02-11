@@ -25,6 +25,11 @@ AutonomousLeftNew extends LinearOpMode {
         robot.manipulator.setPos(0.2);
         sleep(1000);
 
+        // Move lift up
+        robot.lift.setPower(1.0);
+        sleep(1500);
+        robot.lift.setPower(0);
+
         // Drive forward
         robot.wheelBase.move(0.5, 0, 0);
         sleep(830);
@@ -46,6 +51,7 @@ AutonomousLeftNew extends LinearOpMode {
 
         // Drive to the parking
         robot.wheelBase.move(0, -0.5, 0);
+
         sleep(1800);
         robot.wheelBase.move(0, 0, 0);
 

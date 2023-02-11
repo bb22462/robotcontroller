@@ -25,6 +25,11 @@ public class AutonomousRightNew extends LinearOpMode {
         robot.manipulator.setPos(0.2);
         sleep(1000);
 
+        // Move lift up
+        robot.lift.setPower(1.0);
+        sleep(1500);
+        robot.lift.setPower(0);
+
         // Drive forward
         robot.wheelBase.move(0.5, 0, 0);
         sleep(830);

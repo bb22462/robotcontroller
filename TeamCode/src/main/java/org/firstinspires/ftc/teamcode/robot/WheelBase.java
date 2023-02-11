@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot;
 
+import static java.lang.Math.PI;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class WheelBase {
@@ -8,6 +10,9 @@ public class WheelBase {
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
     public DcMotor rightBackDrive = null;
+    final double WHEEL_RADIUS = 4.9;
+    final double WHEEL_LENGTH = 4.9 * 2 * PI;
+    final double CM_TO_ENCODER = 1440 / WHEEL_LENGTH;
     Robot robot;
 
 
@@ -30,6 +35,9 @@ public class WheelBase {
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /* Directions:
@@ -39,6 +47,17 @@ public class WheelBase {
     * Side:
     * 1 - Right
     * -1 - Left */
+
+    void resetEncoder() {
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
     public void move(double direction, double side, double rotation){
         leftFrontDrive.setPower(direction + side + rotation);
         rightFrontDrive.setPower(direction - side - rotation);
@@ -51,6 +70,17 @@ public class WheelBase {
         rightFrontDrive.setPower(power);
         leftBackDrive.setPower(power);
         rightBackDrive.setPower(power);
+    }
+
+
+
+    public void moveEncoder(double cm, double direction, double side, double rotation){
+        resetEncoder();
+
+        while (leftFrontDrive.getCurrentPosition() < cm * CM_TO_ENCODER) {
+            move(direction, side, rotation);
+        }
+
     }
 
     public void setPowerAll(double leftFrontPower, double rightFrontPower, double leftBackPower, double rightBackPower){
