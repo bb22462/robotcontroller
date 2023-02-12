@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.programms.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
@@ -10,12 +9,8 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 @TeleOp(name = "OpMode [1 Driver]", group = "Linear Opmode")
 public class OpModeOneDriver extends LinearOpMode {
 
-    private ElapsedTime runtime = new ElapsedTime();
+    private final ElapsedTime runtime = new ElapsedTime();
     Robot robot;
-    private final double MAX_POS = 1.0;
-    private final double MIN_POS = 0.0;
-    public Servo leftManipulatorServo = null;
-    public Servo rightManipulatorServo = null;
 
     @Override
     public void runOpMode() {
@@ -60,7 +55,7 @@ public class OpModeOneDriver extends LinearOpMode {
             }
 
             if (gamepad1.b) {
-                if (robot.manipulator.leftManipulatorServo.getPosition() == MAX_POS && robot.manipulator.rightManipulatorServo.getPosition() == MAX_POS) {
+                if (robot.manipulator.leftManipulatorServo.getPosition() == robot.manipulator.MAX_POS && robot.manipulator.rightManipulatorServo.getPosition() == robot.manipulator.MAX_POS) {
                     System.out.println("Manipulator is already closed.");
                 } else {
                     robot.manipulator.setPos(0.2);
@@ -68,7 +63,7 @@ public class OpModeOneDriver extends LinearOpMode {
             }
 
             else if (gamepad1.x) {
-                if (robot.manipulator.leftManipulatorServo.getPosition() == MIN_POS && robot.manipulator.rightManipulatorServo.getPosition() == MIN_POS) {
+                if (robot.manipulator.leftManipulatorServo.getPosition() == robot.manipulator.MIN_POS && robot.manipulator.rightManipulatorServo.getPosition() == robot.manipulator.MIN_POS) {
                     System.out.println("Manipulator is already opened.");
                 } else {
                     robot.manipulator.setPos(0.0);
@@ -93,7 +88,7 @@ public class OpModeOneDriver extends LinearOpMode {
             robot.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Status", "Run Time: " + runtime);
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.update();

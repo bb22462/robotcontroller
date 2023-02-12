@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.robot;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Manipulator {
-    public Servo leftManipulatorServo = null;
-    public Servo rightManipulatorServo = null;
-    private final double MAX_POS = 1.0;
-    private final double MIN_POS = 0.0;
+    public Servo leftManipulatorServo;
+    public Servo rightManipulatorServo;
+    public final double MAX_POS = 1.0;
+    public final double MIN_POS = 0.0;
     Robot robot;
 
     public Manipulator(Robot robot1) {

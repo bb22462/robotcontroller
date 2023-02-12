@@ -6,12 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class WheelBase {
     // Declare each motor in drivetrain
-    public DcMotor leftFrontDrive = null;
-    public DcMotor rightFrontDrive = null;
-    public DcMotor leftBackDrive = null;
-    public DcMotor rightBackDrive = null;
+    public DcMotor leftFrontDrive;
+    public DcMotor rightFrontDrive;
+    public DcMotor leftBackDrive;
+    public DcMotor rightBackDrive;
     final double WHEEL_RADIUS = 4.9;
-    final double WHEEL_LENGTH = 4.9 * 2 * PI;
+    final double WHEEL_LENGTH = WHEEL_RADIUS * 2 * PI;
     final double CM_TO_ENCODER = 1440 / WHEEL_LENGTH;
     Robot robot;
 
@@ -64,14 +64,6 @@ public class WheelBase {
         leftBackDrive.setPower(direction - side + rotation);
         rightBackDrive.setPower(direction + side - rotation);
     }
-
-    public void setPowerAll(double power){
-        leftFrontDrive.setPower(power);
-        rightFrontDrive.setPower(power);
-        leftBackDrive.setPower(power);
-        rightBackDrive.setPower(power);
-    }
-
 
 
     public void moveEncoder(double cm, double direction, double side, double rotation){

@@ -10,16 +10,12 @@ public class
 AutonomousLeftNew extends LinearOpMode {
 
     Robot robot;
-    private final double MAX_POS = 1.0;
-    private final double MIN_POS = 0.0;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    // throws InterruptedException
+    public void runOpMode() {
         robot = new Robot(this);
         waitForStart();
-
-        // robot.driveTrain.move(0, -1, 0);
-        // sleep(1500);
 
         // Close the manipulator
         robot.manipulator.setPos(0.2);
@@ -54,6 +50,12 @@ AutonomousLeftNew extends LinearOpMode {
 
         sleep(1800);
         robot.wheelBase.move(0, 0, 0);
+
+        // Move lift up
+        robot.lift.setPower(-1.0);
+        sleep(1500);
+        robot.lift.setPower(0);
+
 
 
     }

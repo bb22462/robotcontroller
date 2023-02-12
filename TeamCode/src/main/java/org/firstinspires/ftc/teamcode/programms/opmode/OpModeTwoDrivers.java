@@ -10,10 +10,8 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 public class OpModeTwoDrivers extends LinearOpMode {
 
     // Declare OpMode members for each motor and servo
-    private ElapsedTime runtime = new ElapsedTime();
+    private final ElapsedTime runtime = new ElapsedTime();
     Robot robot;
-    private final double MAX_POS = 1.0;
-    private final double MIN_POS = 0.0;
 
     @Override
     public void runOpMode() {
@@ -57,7 +55,7 @@ public class OpModeTwoDrivers extends LinearOpMode {
             }
 
             if (gamepad2.b) {
-                if (robot.manipulator.leftManipulatorServo.getPosition() == MAX_POS && robot.manipulator.rightManipulatorServo.getPosition() == MAX_POS) {
+                if (robot.manipulator.leftManipulatorServo.getPosition() == robot.manipulator.MAX_POS && robot.manipulator.rightManipulatorServo.getPosition() == robot.manipulator.MAX_POS) {
                     System.out.println("Manipulator is already opened.");
                 } else {
                     robot.manipulator.setPos(0.3);
@@ -65,7 +63,7 @@ public class OpModeTwoDrivers extends LinearOpMode {
             }
 
            else if (gamepad2.x) {
-                if (robot.manipulator.leftManipulatorServo.getPosition() == MIN_POS && robot.manipulator.rightManipulatorServo.getPosition() == MIN_POS) {
+                if (robot.manipulator.leftManipulatorServo.getPosition() == robot.manipulator.MIN_POS && robot.manipulator.rightManipulatorServo.getPosition() == robot.manipulator.MIN_POS) {
                     System.out.println("Manipulator is already closed.");
                 } else {
                     robot.manipulator.setPos(0.0);
