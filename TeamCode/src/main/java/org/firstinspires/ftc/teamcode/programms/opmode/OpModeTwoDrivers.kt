@@ -15,9 +15,12 @@ class OpModeTwoDrivers : LinearOpMode() {
     override fun runOpMode() {
         robot = Robot(this)
 
+        // Add the initialization status to the telemetry
+        telemetry.let {
+            it.addData("Status", "Initialized")
+            it.update()
+        }
         // Wait for the game to start (driver presses PLAY)
-        telemetry.addData("Status", "Initialized")
-        telemetry.update()
         waitForStart()
         runtime.reset()
 
@@ -48,30 +51,37 @@ class OpModeTwoDrivers : LinearOpMode() {
                 leftBackPower /= max
                 rightBackPower /= max
             }
+
+            // Check the gamepad buttons and open/close the manipulator
             if (gamepad2.b) {
                 if (robot!!.manipulator.leftManipulatorServo.position == robot!!.manipulator.maxPos && robot!!.manipulator.rightManipulatorServo.position == robot!!.manipulator.maxPos) {
                     println("Manipulator is already opened.")
                 } else {
                     robot!!.manipulator.setPos(0.3)
                 }
-            } else if (gamepad2.x) {
+            }
+            else if (gamepad2.x) {
                 if (robot!!.manipulator.leftManipulatorServo.position == robot!!.manipulator.minPos && robot!!.manipulator.rightManipulatorServo.position == robot!!.manipulator.minPos) {
                     println("Manipulator is already closed.")
                 } else {
                     robot!!.manipulator.setPos(0.0)
                 }
             }
+            // Send the stick's position to lift
             robot!!.lift.setPower(gamepad2.right_stick_y.toDouble())
-
 
             // Send calculated power to wheels
             robot!!.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: $runtime")
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower)
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower)
-            telemetry.update()
+            telemetry.let {
+                it.addData("Status", "Run Time: $runtime")
+                it.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower)
+                it.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower)
+                it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.leftManipulatorServo.position}")
+                it.addData("Manipulator's right position", "Position: ${robot!!.manipulator.rightManipulatorServo.position}")
+                it.update()
+            }
         }
     }
 }

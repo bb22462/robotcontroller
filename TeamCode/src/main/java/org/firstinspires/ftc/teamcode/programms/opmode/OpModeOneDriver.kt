@@ -9,15 +9,17 @@ import kotlin.math.max
 
 @TeleOp(name = "OpMode [1 Driver]", group = "Linear Opmode")
 class OpModeOneDriver : LinearOpMode() {
-    private val runtime = ElapsedTime()
+    private val runtime = ElapsedTime();
     var robot: Robot? = null
     override fun runOpMode() {
         robot = Robot(this)
 
-
+        // Add the initialization status to the telemetry
+        telemetry.let {
+            it.addData("Status", "Initialized")
+            it.update()
+        }
         // Wait for the game to start (driver presses PLAY)
-        telemetry.addData("Status", "Initialized")
-        telemetry.update()
         waitForStart()
         runtime.reset()
 
@@ -48,19 +50,24 @@ class OpModeOneDriver : LinearOpMode() {
                 leftBackPower /= max
                 rightBackPower /= max
             }
+
+            // Check the gamepad buttons and open/close the manipulator
             if (gamepad1.b) {
                 if (robot!!.manipulator.leftManipulatorServo.position == robot!!.manipulator.maxPos && robot!!.manipulator.rightManipulatorServo.position == robot!!.manipulator.maxPos) {
                     println("Manipulator is already closed.")
                 } else {
                     robot!!.manipulator.setPos(0.2)
                 }
-            } else if (gamepad1.x) {
+            }
+            else if (gamepad1.x) {
                 if (robot!!.manipulator.leftManipulatorServo.position == robot!!.manipulator.minPos && robot!!.manipulator.rightManipulatorServo.position == robot!!.manipulator.minPos) {
                     println("Manipulator is already opened.")
                 } else {
                     robot!!.manipulator.setPos(0.0)
                 }
             }
+
+            // Check the gamepad buttons and move the lift up/down
             if (gamepad1.dpad_up) {
                 robot!!.lift.setPower(1.0)
                 sleep(1)
@@ -72,16 +79,18 @@ class OpModeOneDriver : LinearOpMode() {
                 robot!!.lift.setPower(0.0)
             }
 
-            // Dividing stick position to slow down motor and setting power
-
             // Send calculated power to wheels
             robot!!.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)
 
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: $runtime")
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower)
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower)
-            telemetry.update()
+            // Show the elapsed game time, wheel power and manipulator's position.
+            telemetry.let {
+                it.addData("Status", "Run Time: $runtime")
+                it.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower)
+                it.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower)
+                it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.leftManipulatorServo.position}")
+                it.addData("Manipulator's right position", "Position: ${robot!!.manipulator.rightManipulatorServo.position}")
+                it.update()
+            }
         }
     }
 }
