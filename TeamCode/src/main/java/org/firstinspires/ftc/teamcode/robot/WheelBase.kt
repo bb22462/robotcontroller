@@ -1,17 +1,25 @@
 package org.firstinspires.ftc.teamcode.robot
 
+import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
+import kotlin.math.abs
+import kotlin.math.sign
+
 
 class WheelBase(var robot: Robot) {
     // Declare each motor in drivetrain
-    public var leftFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_front_drive")
-    public var rightFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_front_drive")
-    public var leftBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_back_drive")
-    public var rightBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_back_drive")
+    private var imu: BNO055IMU = robot.linearOpMode.hardwareMap.get<BNO055IMU>(BNO055IMU::class.java, "imu")
+    private var leftFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_front_drive")
+    private var rightFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_front_drive")
+    private var leftBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_back_drive")
+    private var rightBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_back_drive")
     private val wheelRadius = 4.9
     private val wheelLength = wheelRadius * 2 * Math.PI
-    private val cmToEncoder = 1440 / wheelLength
+    private val cmToEncoder = 480 / wheelLength
 
     init {
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -26,12 +34,25 @@ class WheelBase(var robot: Robot) {
         rightFrontDrive.direction = DcMotorSimple.Direction.FORWARD
         leftBackDrive.direction = DcMotorSimple.Direction.REVERSE
         rightBackDrive.direction = DcMotorSimple.Direction.FORWARD
+
         leftFrontDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         rightFrontDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         leftBackDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         rightBackDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+
         leftFrontDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         leftFrontDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+
+        leftBackDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+        leftBackDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+
+        rightFrontDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+        rightFrontDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+
+        rightBackDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+        rightBackDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+
+        imu.initialize(BNO055IMU.Parameters())
     }
 
     /* Directions:
@@ -44,10 +65,13 @@ class WheelBase(var robot: Robot) {
     private fun resetEncoder() {
         leftFrontDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         leftFrontDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+
         leftBackDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         leftBackDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+
         rightFrontDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         rightFrontDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
+
         rightBackDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         rightBackDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
     }
@@ -59,12 +83,36 @@ class WheelBase(var robot: Robot) {
         rightBackDrive.power = direction + side - rotation
     }
 
-    fun moveEncoder(cm: Double, direction: Double, side: Double, rotation: Double) {
+    fun moveEncoder(cmForward: Double, cmSide: Double, Angle: Double, power: Double) {
+        if (power > 1.0) { throw java.lang.IllegalArgumentException("Illegal argument! Only numbers from -1.0 to 1.0!") }
         resetEncoder()
-        while (leftFrontDrive.currentPosition < cm * cmToEncoder) {
-            move(direction, side, rotation)
-        }
+        var forwardDistance: Double
+        var sideDistance: Double
+        var forwardError: Double
+        var sideError: Double
+        var angleDistance: Double
+        var angleError: Double
+        do {
+            forwardDistance = (leftFrontDrive.currentPosition + leftBackDrive.currentPosition + rightFrontDrive.currentPosition + rightBackDrive.currentPosition) / 4.0 / cmToEncoder
+            sideDistance = ((leftFrontDrive.currentPosition - leftBackDrive.currentPosition - rightFrontDrive.currentPosition + rightBackDrive.currentPosition) / 4.0 / cmToEncoder)
+            angleDistance = getGyroAngle()
+            forwardError = forwardDistance - cmForward
+            sideError = sideDistance - cmSide
+            angleError = angleDistance - Angle
+            while (abs(angleError) > 180)
+                angleError -= angleError.sign * 360
+
+
+            move(forwardError.sign * power, sideError.sign * power , angleError.sign * power) // * 0.0004
+        } while(abs(sideError) > 3.0 && abs(forwardError) > 3.0 && abs(angleError) > 3.0)
+
     }
+
+
+    private fun getGyroAngle(): Double {
+        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
+    }
+
 
     fun setPowerAll(leftFrontPower: Double, rightFrontPower: Double, leftBackPower: Double, rightBackPower: Double) {
         leftFrontDrive.power = leftFrontPower
