@@ -81,8 +81,7 @@ class OpModeButBrokenArm : LinearOpMode() {
                 it.addData("Status", "Run Time: $runtime")
                 it.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower)
                 it.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower)
-                it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.leftManipulatorServo.position}")
-                it.addData("Manipulator's right position", "Position: ${robot!!.manipulator.rightManipulatorServo.position}")
+                it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.ManipulatorServo.position}")
                 it.update()
             }
         }

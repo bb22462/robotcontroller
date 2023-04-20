@@ -64,8 +64,7 @@ class AutonomousRightNew : LinearOpMode() {
 
         telemetry.let {
             it.addData("Status", "Run Time: $runtime")
-            it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.leftManipulatorServo.position}")
-            it.addData("Manipulator's right position", "Position: ${robot!!.manipulator.rightManipulatorServo.position}")
+            it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.ManipulatorServo.position}")
             it.update()
         }
     }

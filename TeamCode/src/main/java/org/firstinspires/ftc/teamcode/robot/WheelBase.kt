@@ -84,7 +84,6 @@ class WheelBase(var robot: Robot) {
     }
 
     fun moveEncoder(cmForward: Double, cmSide: Double, Angle: Double, power: Double) {
-        if (power > 1.0) { throw java.lang.IllegalArgumentException("Illegal argument! Only numbers from -1.0 to 1.0!") }
         resetEncoder()
         var forwardDistance: Double
         var sideDistance: Double
@@ -104,7 +103,7 @@ class WheelBase(var robot: Robot) {
 
 
             move(forwardError.sign * power, sideError.sign * power , angleError.sign * power) // * 0.0004
-        } while(abs(sideError) > 3.0 && abs(forwardError) > 3.0 && abs(angleError) > 3.0)
+        } while(abs(sideError) > 3.0 || abs(forwardError) > 3.0 || abs(angleError) > 3.0)
 
     }
 

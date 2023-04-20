@@ -5,31 +5,26 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.robot.Robot
 
-@Autonomous(name = "Autonomous Left [OLD]")
-class AutonomousLeftOld : LinearOpMode() {
+@Autonomous(name = "CamTest")
+class CamTest : LinearOpMode() {
     private val runtime = ElapsedTime()
     var robot: Robot? = null
 
     // throws InterruptedException
     override fun runOpMode() {
         robot = Robot(this)
+        robot!!.camera.initCamera()
 
-        // Add the initialization status to the telemetry
-        telemetry.let {
-            it.addData("Status", "Initialized")
-            it.update()
+        while (!isStarted() && !isStopRequested()) {
+            var tagTest: Int = robot!!.camera.findTag()
+            telemetry.let {
+                it.addData("Test", "Position: ${tagTest}")
+                it.update()
+            }
         }
         // Wait for the game to start (driver presses PLAY)
         waitForStart()
         runtime.reset()
 
-        robot!!.wheelBase.move(0.0, -1.0, 0.0)
-        sleep(1500)
-
-        telemetry.let {
-            it.addData("Status", "Run Time: $runtime")
-            it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.ManipulatorServo.position}")
-            it.update()
-        }
     }
 }
