@@ -70,8 +70,18 @@ class Camera(var robot: Robot) {
         if (currentDetections.size != 0) {
             var tagFound = false
             for (tag in currentDetections) {
-                if (tag.id == tagOfInterest1 || tag.id == tagOfInterest2 || tag.id == tagOfInterest3) {
-                    tagOfInterest = tag.id
+                if (tag.id == tagOfInterest1) {
+                    tagOfInterest = 1
+                    tagFound = true
+                    break
+                }
+                else if (tag.id == tagOfInterest2) {
+                    tagOfInterest = 2
+                    tagFound = true
+                    break
+                }
+                else if (tag.id == tagOfInterest3) {
+                    tagOfInterest = 3
                     tagFound = true
                     break
                 }
