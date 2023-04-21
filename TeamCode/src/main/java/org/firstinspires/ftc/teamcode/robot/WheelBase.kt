@@ -103,7 +103,7 @@ class WheelBase(var robot: Robot) {
 
 
             move(forwardError.sign * power, sideError.sign * power , angleError.sign * power) // * 0.0004
-        } while(abs(sideError) > 3.0 || abs(forwardError) > 3.0 || abs(angleError) > 3.0)
+        } while(abs(sideError) > 2.5 || abs(forwardError) > 2.5 || abs(angleError) > 2.5)
 
     }
 

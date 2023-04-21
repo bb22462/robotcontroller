@@ -5,8 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.robot.Robot
 
-@Autonomous(name = "Autonomous Left [NEW]")
-class AutonomousLeftNew : LinearOpMode() {
+@Autonomous(name = "Autonomous R")
+class AutonomousR : LinearOpMode() {
+    // 11.8 cm
     private val runtime = ElapsedTime()
     var robot: Robot? = null
 
@@ -38,7 +39,7 @@ class AutonomousLeftNew : LinearOpMode() {
         robot!!.wheelBase.move(0.0, 0.0, 0.0)
 
         // Drive to the ground
-        robot!!.wheelBase.move(0.0, -0.5, 0.0)
+        robot!!.wheelBase.move(0.0, 0.5, 0.0)
         sleep(1800)
         robot!!.wheelBase.move(0.0, 0.0, 0.0)
 
@@ -52,7 +53,7 @@ class AutonomousLeftNew : LinearOpMode() {
         robot!!.wheelBase.move(0.0, 0.0, 0.0)
 
         // Drive to the parking
-        robot!!.wheelBase.move(0.0, -0.5, 0.0)
+        robot!!.wheelBase.move(0.0, 0.5, 0.0)
         sleep(1800)
         robot!!.wheelBase.move(0.0, 0.0, 0.0)
 

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot
 
 
-import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.teamcode.programms.autonomous.apriltag.AprilTagDetectionPipeline
 import org.openftc.apriltag.AprilTagDetection
@@ -11,8 +10,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory
 import org.openftc.easyopencv.OpenCvCameraRotation
 
 
+
 class Camera(var robot: Robot) {
-    var telemetry = robot.linearOpMode.telemetry
     @JvmField
     var cameraMonitorViewId: Int = robot.linearOpMode.hardwareMap.appContext.getResources()
         .getIdentifier("cameraMonitorViewId", "id", robot.linearOpMode.hardwareMap.appContext.getPackageName())
@@ -29,19 +28,19 @@ class Camera(var robot: Robot) {
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
     // You will need to do your own calibration for other configurations!
-    var fx = 578.272
-    var fy = 578.272
-    var cx = 402.145
-    var cy = 221.506
+    private var fx = 578.272
+    private var fy = 578.272
+    private var cx = 402.145
+    private var cy = 221.506
 
     // UNITS ARE METERS
-    var tagsize = 0.166
+    private var tagsize = 0.166
 
-    var tagOfInterest1 = 9
-    var tagOfInterest2 = 18
-    var tagOfInterest3 = 27
+    private var tagOfInterest1 = 9
+    private var tagOfInterest2 = 18
+    private var tagOfInterest3 = 27
 
-    var aprilTagDetectionPipeline: AprilTagDetectionPipeline =
+    private var aprilTagDetectionPipeline: AprilTagDetectionPipeline =
         AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy)
 
     fun initCamera() {
@@ -55,17 +54,13 @@ class Camera(var robot: Robot) {
     }
 
     fun closeCamera() {
-        camera.closeCameraDeviceAsync(object : OpenCvCamera.AsyncCameraCloseListener {
-            override fun onClose() {
-                camera.stopStreaming()
-            }
-        })
+        camera.closeCameraDeviceAsync { camera.stopStreaming() }
     }
 
     fun findTag(): Int {
-        var tagOfInterest: Int = 0
+        var tagOfInterest = 0
         val currentDetections: ArrayList<AprilTagDetection> =
-            aprilTagDetectionPipeline.getLatestDetections()
+            aprilTagDetectionPipeline.latestDetections
 
         if (currentDetections.size != 0) {
             var tagFound = false
