@@ -30,10 +30,10 @@ class WheelBase(var robot: Robot) {
         // Motor 1
 
         // Most robots need the motors on one side to be reversed to drive forward.
-        leftFrontDrive.direction = DcMotorSimple.Direction.REVERSE
-        rightFrontDrive.direction = DcMotorSimple.Direction.FORWARD
-        leftBackDrive.direction = DcMotorSimple.Direction.REVERSE
-        rightBackDrive.direction = DcMotorSimple.Direction.FORWARD
+        leftFrontDrive.direction = DcMotorSimple.Direction.FORWARD
+        rightFrontDrive.direction = DcMotorSimple.Direction.REVERSE
+        leftBackDrive.direction = DcMotorSimple.Direction.FORWARD
+        rightBackDrive.direction = DcMotorSimple.Direction.REVERSE
 
         leftFrontDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         rightFrontDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
@@ -92,8 +92,8 @@ class WheelBase(var robot: Robot) {
         var angleDistance: Double
         var angleError: Double
         do {
-            forwardDistance = (leftFrontDrive.currentPosition + leftBackDrive.currentPosition + rightFrontDrive.currentPosition + rightBackDrive.currentPosition) / 4.0 / cmToEncoder
-            sideDistance = ((leftFrontDrive.currentPosition - leftBackDrive.currentPosition - rightFrontDrive.currentPosition + rightBackDrive.currentPosition) / 4.0 / cmToEncoder)
+            forwardDistance = (leftBackDrive.currentPosition + rightBackDrive.currentPosition) / 2.0 / cmToEncoder
+            sideDistance = (leftFrontDrive.currentPosition - leftBackDrive.currentPosition) / 2.0 / cmToEncoder
             angleDistance = getGyroAngle()
             forwardError = forwardDistance - cmForward
             sideError = sideDistance - cmSide
@@ -103,7 +103,7 @@ class WheelBase(var robot: Robot) {
 
 
             move(forwardError.sign * power, sideError.sign * power , angleError.sign * power) // * 0.0004
-        } while(abs(sideError) > 2.5 || abs(forwardError) > 2.5 || abs(angleError) > 2.5)
+        } while((abs(sideError) > 2.5 || abs(forwardError) > 2.5 || abs(angleError) > 2.5) && robot.linearOpMode.opModeIsActive())
 
     }
 

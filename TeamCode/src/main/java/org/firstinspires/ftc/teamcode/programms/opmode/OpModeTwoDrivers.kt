@@ -57,14 +57,14 @@ class OpModeTwoDrivers : LinearOpMode() {
                 if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.maxPos) {
                     println("Manipulator is already opened.")
                 } else {
-                    robot!!.manipulator.setPos(0.3)
+                    robot!!.manipulator.setPos(0.85)
                 }
             }
             else if (gamepad2.x) {
                 if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.minPos) {
                     println("Manipulator is already closed.")
                 } else {
-                    robot!!.manipulator.setPos(0.0)
+                    robot!!.manipulator.setPos(0.2)
                 }
             }
             // Send the stick's position to lift
