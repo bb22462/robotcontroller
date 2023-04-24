@@ -53,29 +53,28 @@ class OpModeOneDriver : LinearOpMode() {
 
             // Check the gamepad buttons and open/close the manipulator
             if (gamepad1.b) {
-                if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.maxPos) {
+                if (robot!!.manipulator.getPos() == robot!!.manipulator.maxPos) {
                     println("Manipulator is already closed.")
                 } else {
-                    robot!!.manipulator.setPos(0.2)
+                    robot!!.manipulator.setPos(0.85)
                 }
             }
             else if (gamepad1.x) {
-                if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.minPos) {
+                if (robot!!.manipulator.getPos() == robot!!.manipulator.minPos) {
                     println("Manipulator is already opened.")
                 } else {
-                    robot!!.manipulator.setPos(0.0)
+                    robot!!.manipulator.setPos(0.2)
                 }
             }
 
             // Check the gamepad buttons and move the lift up/down
             if (gamepad1.dpad_up) {
                 robot!!.lift.setPower(1.0)
-                sleep(1)
-                robot!!.lift.setPower(0.0)
             }
-            if (gamepad1.dpad_down) {
+            else if (gamepad1.dpad_down) {
                 robot!!.lift.setPower(-1.0)
-                sleep(1)
+            }
+            else {
                 robot!!.lift.setPower(0.0)
             }
 
@@ -83,11 +82,12 @@ class OpModeOneDriver : LinearOpMode() {
             robot!!.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)
 
             // Show the elapsed game time, wheel power and manipulator's position.
+            // TODO Сделать дашборд телеметрию
             telemetry.let {
                 it.addData("Status", "Run Time: $runtime")
                 it.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower)
                 it.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower)
-                it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.ManipulatorServo.position}")
+                it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.manipulatorServo.position}")
                 it.update()
             }
         }

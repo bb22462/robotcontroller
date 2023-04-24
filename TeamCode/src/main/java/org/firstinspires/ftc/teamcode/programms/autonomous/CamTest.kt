@@ -16,9 +16,9 @@ class CamTest : LinearOpMode() {
         robot!!.camera.initCamera()
 
         while (!isStarted() && !isStopRequested()) {
-            var tagTest: Int = robot!!.camera.findTag()
+            var tag: Int = robot!!.camera.findTag()
             telemetry.let {
-                it.addData("Test", "Position: ${tagTest}")
+                it.addData("Camera", "Position: ${tag}")
                 it.update()
             }
         }

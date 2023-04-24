@@ -83,6 +83,7 @@ class WheelBase(var robot: Robot) {
         rightBackDrive.power = direction + side - rotation
     }
 
+    //TODO сделать пропорциональный регулятор
     fun moveEncoder(cmForward: Double, cmSide: Double, Angle: Double, power: Double) {
         resetEncoder()
         var forwardDistance: Double
@@ -92,8 +93,8 @@ class WheelBase(var robot: Robot) {
         var angleDistance: Double
         var angleError: Double
         do {
-            forwardDistance = (leftFrontDrive.currentPosition + leftBackDrive.currentPosition + rightFrontDrive.currentPosition + rightBackDrive.currentPosition) / 4.0 / cmToEncoder
-            sideDistance = ((leftFrontDrive.currentPosition - leftBackDrive.currentPosition - rightFrontDrive.currentPosition + rightBackDrive.currentPosition) / 4.0 / cmToEncoder)
+            forwardDistance = (leftBackDrive.currentPosition + rightBackDrive.currentPosition) / 2.0 / cmToEncoder
+            sideDistance = (leftFrontDrive.currentPosition - leftBackDrive.currentPosition) / 2.0 / cmToEncoder
             angleDistance = getGyroAngle()
             forwardError = forwardDistance - cmForward
             sideError = sideDistance - cmSide
@@ -103,7 +104,7 @@ class WheelBase(var robot: Robot) {
 
 
             move(forwardError.sign * power, sideError.sign * power , angleError.sign * power) // * 0.0004
-        } while(abs(sideError) > 2.5 || abs(forwardError) > 2.5 || abs(angleError) > 2.5)
+        } while((abs(sideError) > 2.5 || abs(forwardError) > 2.5 || abs(angleError) > 2.5) && robot.linearOpMode.opModeIsActive())
 
     }
 

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.Servo
 
 class Manipulator(var robot: Robot) {
     @JvmField
-    var ManipulatorServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "manipulator_servo")
+    var manipulatorServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "manipulator_servo")
 
     @JvmField
     val maxPos = 1.0
@@ -13,6 +13,10 @@ class Manipulator(var robot: Robot) {
 
 
     fun setPos(pos: Double) {
-        ManipulatorServo.position = pos
+        manipulatorServo.position = pos
+    }
+
+    fun getPos(): Double {
+        return manipulatorServo.position
     }
 }

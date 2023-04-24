@@ -54,17 +54,17 @@ class OpModeTwoDrivers : LinearOpMode() {
 
             // Check the gamepad buttons and open/close the manipulator
             if (gamepad2.b) {
-                if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.maxPos) {
+                if (robot!!.manipulator.getPos() == robot!!.manipulator.maxPos) {
                     println("Manipulator is already opened.")
                 } else {
-                    robot!!.manipulator.setPos(0.3)
+                    robot!!.manipulator.setPos(0.85)
                 }
             }
             else if (gamepad2.x) {
-                if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.minPos) {
+                if (robot!!.manipulator.getPos() == robot!!.manipulator.minPos) {
                     println("Manipulator is already closed.")
                 } else {
-                    robot!!.manipulator.setPos(0.0)
+                    robot!!.manipulator.setPos(0.2)
                 }
             }
             // Send the stick's position to lift
@@ -78,7 +78,7 @@ class OpModeTwoDrivers : LinearOpMode() {
                 it.addData("Status", "Run Time: $runtime")
                 it.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower)
                 it.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower)
-                it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.ManipulatorServo.position}")
+                it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.manipulatorServo.position}")
                 it.update()
             }
         }
