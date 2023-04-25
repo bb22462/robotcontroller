@@ -2,7 +2,7 @@
 A robot conroller made for FTC competitions.
 
 
-<a href="https://github.com/IndexZeroZzz/robotcontroller/wiki">Documentation 📄</a>
+<a href="https://github.com/IndexZeroZzz/robotcontroller/wiki">Documentation 📄 (Not done)</a>
 
 ## Support
 Thanks to JetBrains for supporting this project and providing their IDEs for free.
