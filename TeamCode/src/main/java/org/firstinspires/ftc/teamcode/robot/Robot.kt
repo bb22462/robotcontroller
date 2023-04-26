@@ -15,4 +15,7 @@ class Robot(var linearOpMode: LinearOpMode) {
     @JvmField
     var lift: Lift = Lift(this)
 
+    @JvmField
+    var podsvetka: Podsvetka = Podsvetka(this)
+
 }

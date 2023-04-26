@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot
 
+import com.acmerobotics.dashboard.config.Config
 import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
@@ -10,7 +11,14 @@ import kotlin.math.abs
 import kotlin.math.sign
 
 
+@Config
 class WheelBase(var robot: Robot) {
+    companion object {
+        @JvmField
+        var forwardSideK = 0.15
+        @JvmField
+        var angleK = 0.05
+    }
     // Declare each motor in drivetrain
     private var imu: BNO055IMU = robot.linearOpMode.hardwareMap.get<BNO055IMU>(BNO055IMU::class.java, "imu")
     private var leftFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_front_drive")
@@ -30,10 +38,10 @@ class WheelBase(var robot: Robot) {
         // Motor 1
 
         // Most robots need the motors on one side to be reversed to drive forward.
-        leftFrontDrive.direction = DcMotorSimple.Direction.REVERSE
-        rightFrontDrive.direction = DcMotorSimple.Direction.FORWARD
-        leftBackDrive.direction = DcMotorSimple.Direction.REVERSE
-        rightBackDrive.direction = DcMotorSimple.Direction.FORWARD
+        leftFrontDrive.direction = DcMotorSimple.Direction.FORWARD
+        rightFrontDrive.direction = DcMotorSimple.Direction.REVERSE
+        leftBackDrive.direction = DcMotorSimple.Direction.FORWARD
+        rightBackDrive.direction = DcMotorSimple.Direction.REVERSE
 
         leftFrontDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         rightFrontDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
@@ -96,21 +104,31 @@ class WheelBase(var robot: Robot) {
             forwardDistance = (leftBackDrive.currentPosition + rightBackDrive.currentPosition) / 2.0 / cmToEncoder
             sideDistance = (leftFrontDrive.currentPosition - leftBackDrive.currentPosition) / 2.0 / cmToEncoder
             angleDistance = getGyroAngle()
-            forwardError = forwardDistance - cmForward
-            sideError = sideDistance - cmSide
-            angleError = angleDistance - Angle
+            forwardError = cmForward - forwardDistance
+            sideError = cmSide - sideDistance
+            angleError = Angle - angleDistance
             while (abs(angleError) > 180)
                 angleError -= angleError.sign * 360
 
+            robot!!.linearOpMode.telemetry.let {
+                it.addData("sideError", sideError)
+                it.addData("forwardError", forwardError)
+                it.addData("angleError", angleError)
+                it.update()
+            }
 
-            move(forwardError.sign * power, sideError.sign * power , angleError.sign * power) // * 0.0004
-        } while((abs(sideError) > 2.5 || abs(forwardError) > 2.5 || abs(angleError) > 2.5) && robot.linearOpMode.opModeIsActive())
+
+            move(
+                forwardError * power * forwardSideK, sideError * power * forwardSideK, angleError * power * angleK
+            )
+
+        } while((abs(sideError) > 3 || abs(forwardError) > 3 || abs(angleError) > 3) && robot.linearOpMode.opModeIsActive())
 
     }
 
 
     private fun getGyroAngle(): Double {
-        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
+        return -imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
     }
 
 

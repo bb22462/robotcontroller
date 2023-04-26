@@ -22,6 +22,7 @@ class AutonomousAprilTag : LinearOpMode() {
         }
 
         while (!isStarted && !isStopRequested) {
+            robot!!.lift.resetEncoder()
             tag = robot!!.camera.findTag()
             telemetry.let {
                 it.addData("Camera", "AprilTag: $tag")
