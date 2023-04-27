@@ -26,8 +26,7 @@ class OpModeOneDriver : LinearOpMode() {
         // Add the initialization status to the telemetry
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
         robot = Robot(this)
-        var isOpen = true
-        robot!!.manipulator.setPos(openPos)
+        robot!!.podsvetka.setPowerAll(0.2)
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart()
@@ -63,11 +62,9 @@ class OpModeOneDriver : LinearOpMode() {
 
             // Check the gamepad buttons and open/close the manipulator
             if (gamepad1.b) {
-                isOpen = true
                 robot!!.manipulator.setPos(openPos)
             }
             else if (gamepad1.x) {
-                isOpen = false
                 robot!!.manipulator.setPos(closePos)
             }
 
@@ -91,7 +88,6 @@ class OpModeOneDriver : LinearOpMode() {
                 it.addData("Status", "Run Time: $runtime")
                 it.addData("Right Lift Encoder", robot!!.lift.getEncoder()[0])
                 it.addData("Left Lift Encoder", robot!!.lift.getEncoder()[1])
-                it.addData("Manipulator is Opened", isOpen)
                 it.update()
             }
         }

@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.sign
 
 
@@ -85,10 +86,32 @@ class WheelBase(var robot: Robot) {
     }
 
     fun move(direction: Double, side: Double, rotation: Double) {
-        leftFrontDrive.power = direction + side + rotation
-        rightFrontDrive.power = direction - side - rotation
-        leftBackDrive.power = direction - side + rotation
-        rightBackDrive.power = direction + side - rotation
+        //leftFrontDrive.power = direction + side + rotation
+        //rightFrontDrive.power = direction - side - rotation
+        //leftBackDrive.power = direction - side + rotation
+        //rightBackDrive.power = direction + side - rotation
+
+        var leftFrontPower = direction + side + rotation
+        var rightFrontPower = direction - side - rotation
+        var leftBackPower = direction - side + rotation
+        var rightBackPower = direction + side - rotation
+
+        // Normalize the values so no wheel power exceeds 100%
+        // This ensures that the robot maintains the desired motion.
+        var max = max(abs(leftFrontPower), abs(rightFrontPower))
+        max = max(max, abs(leftBackPower))
+        max = max(max, abs(rightBackPower))
+        if (max > 1.0) {
+            leftFrontPower /= max
+            rightFrontPower /= max
+            leftBackPower /= max
+            rightBackPower /= max
+        }
+
+        leftFrontDrive.power = leftFrontPower
+        rightFrontDrive.power = rightFrontPower
+        leftBackDrive.power = leftBackPower
+        rightBackDrive.power = rightBackPower
     }
 
     //TODO сделать пропорциональный регулятор
@@ -122,9 +145,13 @@ class WheelBase(var robot: Robot) {
                 forwardError * power * forwardSideK, sideError * power * forwardSideK, angleError * power * angleK
             )
 
-        } while((abs(sideError) > 3 || abs(forwardError) > 3 || abs(angleError) > 3) && robot.linearOpMode.opModeIsActive())
+        } while((abs(sideError) > 3 || abs(forwardError) > 3 || abs(angleError) > 2) && robot.linearOpMode.opModeIsActive())
 
     }
+
+
+
+
 
 
     private fun getGyroAngle(): Double {
