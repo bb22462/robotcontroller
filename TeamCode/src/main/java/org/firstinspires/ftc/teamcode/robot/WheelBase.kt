@@ -145,7 +145,7 @@ class WheelBase(var robot: Robot) {
                 forwardError * power * forwardSideK, sideError * power * forwardSideK, angleError * power * angleK
             )
 
-        } while((abs(sideError) > 3 || abs(forwardError) > 3 || abs(angleError) > 2) && robot.linearOpMode.opModeIsActive())
+        } while((abs(sideError) > 3|| abs(forwardError) > 3 || abs(angleError) > 2) && robot.linearOpMode.opModeIsActive())
 
     }
 

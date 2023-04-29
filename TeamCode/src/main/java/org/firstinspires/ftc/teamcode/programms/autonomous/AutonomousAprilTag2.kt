@@ -9,13 +9,15 @@ import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.robot.Robot
 
 @Config
-@Autonomous(name = "Autonomous April Tag")
-class AutonomousAprilTag : LinearOpMode() {
+@Autonomous(name = "Autonomous April Tag 2")
+class AutonomousAprilTag2 : LinearOpMode() {
     companion object {
         @JvmField
-        var firstSide1 = -105.0
+        var firstForward1 = 80.0
         @JvmField
-        var secondForward1 = 60.0
+        var secondTurn1 = -90.0
+        @JvmField
+        var thirdForward1 = 60.0
 
         @JvmField
         var firstForward2 = 80.0
@@ -23,10 +25,9 @@ class AutonomousAprilTag : LinearOpMode() {
         @JvmField
         var firstForward3 = 80.0
         @JvmField
-        var secondForward3 = 60.0
-
+        var secondTurn3 = 90.0
         @JvmField
-        var back = -20.0
+        var thirdForward3 = 60.0
 
 
 
@@ -61,17 +62,21 @@ class AutonomousAprilTag : LinearOpMode() {
 
         when (tag) {
             1 -> {
-                robot!!.wheelBase.moveEncoder(back, firstSide1, 0.0, 1.0)
-                sleep(1000)
-                robot!!.wheelBase.moveEncoder(secondForward1, 0.0, 0.0, 1.0)
+                robot!!.wheelBase.moveEncoder(firstForward1, 0.0, 0.0, 1.0)
+                sleep(2000)
+                robot!!.wheelBase.moveEncoder(0.0, 0.0, secondTurn1, 1.0)
+                sleep(2000)
+                robot!!.wheelBase.moveEncoder(thirdForward1, 0.0, 0.0, 1.0)
             }
             2 -> {
                 robot!!.wheelBase.moveEncoder(firstForward2, 0.0, 0.0, 0.5)
             }
             3 -> {
                 robot!!.wheelBase.moveEncoder(firstForward3, 0.0, 0.0, 1.0)
-                sleep(1000)
-                robot!!.wheelBase.moveEncoder(secondForward3, 0.0, 0.0, 1.0)
+                sleep(2000)
+                robot!!.wheelBase.moveEncoder(0.0, 0.0, secondTurn3, 1.0)
+                sleep(2000)
+                robot!!.wheelBase.moveEncoder(thirdForward3, 0.0, 0.0, 1.0)
             }
             else -> {
                 robot!!.wheelBase.moveEncoder(firstForward2, 0.0, 0.0, 0.5)

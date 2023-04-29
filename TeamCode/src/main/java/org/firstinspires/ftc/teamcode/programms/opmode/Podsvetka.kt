@@ -28,7 +28,7 @@ class Podsvetka : LinearOpMode() {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            robot!!.podsvetka.setPowerAll(0.2)
+            robot!!.podsvetka.setPowerAll(0.5)
         }
     }
 }

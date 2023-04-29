@@ -23,7 +23,7 @@ class TestEncoder : LinearOpMode() {
         // Wait for the game to start (driver presses PLAY)
         waitForStart()
 
-        robot!!.wheelBase.moveEncoder(0.0, 60.0, 0.0, 0.3)
+        robot!!.wheelBase.moveEncoder(0.0, 60.0, 0.0, 1.0)
 
 
         runtime.reset()
