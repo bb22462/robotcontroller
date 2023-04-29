@@ -13,20 +13,17 @@ import org.firstinspires.ftc.teamcode.robot.Robot
 class AutonomousAprilTag : LinearOpMode() {
     companion object {
         @JvmField
-        var firstSide1 = -105.0
+        var forward1_1 = 52.0
         @JvmField
-        var secondForward1 = 60.0
+        var forward2_1 = 43.0
 
         @JvmField
         var firstForward2 = 80.0
 
         @JvmField
-        var firstForward3 = 80.0
+        var forward1_3 = 52.0
         @JvmField
-        var secondForward3 = 60.0
-
-        @JvmField
-        var back = -20.0
+        var forward2_3 = 43.0
 
 
 
@@ -61,17 +58,23 @@ class AutonomousAprilTag : LinearOpMode() {
 
         when (tag) {
             1 -> {
-                robot!!.wheelBase.moveEncoder(back, firstSide1, 0.0, 1.0)
-                sleep(1000)
-                robot!!.wheelBase.moveEncoder(secondForward1, 0.0, 0.0, 1.0)
+                robot!!.wheelBase.moveEncoder(forward1_1, 0.0, 0.0, 1.0)
+                sleep(2000)
+                robot!!.wheelBase.moveEncoder(0.0, 0.0, -90.0, 1.0)
+                sleep(2000)
+                robot!!.wheelBase.moveEncoder(forward2_1, 0.0, -90.0, 1.0)
+                sleep(2000)
             }
             2 -> {
                 robot!!.wheelBase.moveEncoder(firstForward2, 0.0, 0.0, 0.5)
             }
             3 -> {
-                robot!!.wheelBase.moveEncoder(firstForward3, 0.0, 0.0, 1.0)
-                sleep(1000)
-                robot!!.wheelBase.moveEncoder(secondForward3, 0.0, 0.0, 1.0)
+                robot!!.wheelBase.moveEncoder(forward1_3, 0.0, 0.0, 1.0)
+                sleep(2000)
+                robot!!.wheelBase.moveEncoder(0.0, 0.0, 90.0, 1.0)
+                sleep(2000)
+                robot!!.wheelBase.moveEncoder(forward2_3, 0.0, 90.0, 1.0)
+                sleep(2000)
             }
             else -> {
                 robot!!.wheelBase.moveEncoder(firstForward2, 0.0, 0.0, 0.5)

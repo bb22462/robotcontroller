@@ -1,20 +1,12 @@
 package org.firstinspires.ftc.teamcode.programms.autonomous
 
-import com.acmerobotics.dashboard.config.Config
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.robot.Robot
 
 @Autonomous
-@Config
-class TestEncoder : LinearOpMode() {
-    companion object {
-        @JvmField
-        var forward1_3 = 40.0
-        @JvmField
-        var forward2_3 = 50.0
-    }
+class TestEncoder2 : LinearOpMode() {
     private var tag = 0
     private val runtime = ElapsedTime()
     var robot: Robot? = null
@@ -31,12 +23,9 @@ class TestEncoder : LinearOpMode() {
         // Wait for the game to start (driver presses PLAY)
         waitForStart()
 
-        robot!!.wheelBase.moveEncoder(forward1_3, 0.0, 0.0, 1.0)
-        sleep(2000)
         robot!!.wheelBase.moveEncoder(0.0, 0.0, 90.0, 1.0)
-        sleep(2000)
-        robot!!.wheelBase.moveEncoder(forward2_3, 0.0, 90.0, 1.0)
-        sleep(2000)
+        sleep(3000)
+        robot!!.wheelBase.moveEncoder(0.0, 0.0, -180.0, 1.0)
 
 
         runtime.reset()
