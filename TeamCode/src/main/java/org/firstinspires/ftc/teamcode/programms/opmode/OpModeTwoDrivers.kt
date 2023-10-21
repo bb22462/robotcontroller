@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.programms.opmode
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.ElapsedTime
@@ -8,6 +9,7 @@ import kotlin.math.abs
 import kotlin.math.max
 
 @TeleOp(name = "OpMode [2 Drivers]", group = "Linear Opmode")
+@Disabled
 class OpModeTwoDrivers : LinearOpMode() {
     // Declare OpMode members for each motor and servo
     private val runtime = ElapsedTime()

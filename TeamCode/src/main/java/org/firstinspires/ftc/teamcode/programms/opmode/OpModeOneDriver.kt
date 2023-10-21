@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.robot.Robot
 import kotlin.math.abs
 import kotlin.math.max
 
-@TeleOp(name = "OpMode [1 Driver]", group = "Linear Opmode")
+@TeleOp(name = "OpMode [1 Driver]", group = "Linear OpMode")
 class OpModeOneDriver : LinearOpMode() {
     private val runtime = ElapsedTime();
     var robot: Robot? = null
@@ -66,6 +66,15 @@ class OpModeOneDriver : LinearOpMode() {
                     robot!!.manipulator.setPos(0.2)
                 }
             }
+
+            if (gamepad1.y) {
+                robot!!.manipulator.increment()
+            }
+            else if (gamepad1.a) {
+                robot!!.manipulator.decrement()
+            }
+
+
 
             // Check the gamepad buttons and move the lift up/down
             if (gamepad1.dpad_up) {
