@@ -20,6 +20,9 @@ class OpModeOneDriver : LinearOpMode() {
             it.update()
         }
         // Wait for the game to start (driver presses PLAY)
+        robot!!.lift.resetEncoder();
+        robot!!.manipulator.moveSetPos(0.2)
+        robot!!.manipulator.setPos(0.2)
         waitForStart()
         runtime.reset()
 
@@ -56,7 +59,9 @@ class OpModeOneDriver : LinearOpMode() {
                 if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.maxPos) {
                     println("Manipulator is already closed.")
                 } else {
-                    robot!!.manipulator.setPos(0.85)
+                    robot!!.manipulator.setPos(0.5)
+                    sleep(500)
+                    robot!!.manipulator.moveSetPos(0.6)
                 }
             }
             else if (gamepad1.x) {
@@ -67,16 +72,13 @@ class OpModeOneDriver : LinearOpMode() {
                 }
             }
 
-            if (gamepad1.y) {
-                robot!!.manipulator.increment()
-            }
             else if (gamepad1.a) {
-                robot!!.manipulator.decrement()
+                robot!!.manipulator.moveSetPos(0.2)
             }
 
 
 
-            // Check the gamepad buttons and move the lift up/down
+            // Check the gamepad buttons and move the lift up down
             if (gamepad1.dpad_up) {
                 robot!!.lift.setPower(1.0)
             }
@@ -95,7 +97,8 @@ class OpModeOneDriver : LinearOpMode() {
                 it.addData("Status", "Run Time: $runtime")
                 it.addData("Front Left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower)
                 it.addData("Back  Left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower)
-                it.addData("Manipulator's left position", "Position: ${robot!!.manipulator.ManipulatorServo.position}")
+                it.addData("Left", "Position: ${robot!!.lift.leftLiftDrive.currentPosition}")
+                it.addData("Right", "Position: ${robot!!.lift.rightLiftDrive.currentPosition}")
                 it.update()
             }
         }

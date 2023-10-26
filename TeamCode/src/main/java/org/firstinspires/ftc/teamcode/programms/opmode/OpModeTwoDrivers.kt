@@ -70,7 +70,7 @@ class OpModeTwoDrivers : LinearOpMode() {
                 }
             }
             // Send the stick's position to lift
-            robot!!.lift.setPower(gamepad2.right_stick_y.toDouble())
+            robot!!.lift.setPowerRaw(gamepad2.right_stick_y.toDouble())
 
             // Send calculated power to wheels
             robot!!.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)

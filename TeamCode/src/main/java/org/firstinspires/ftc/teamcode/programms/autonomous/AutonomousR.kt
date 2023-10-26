@@ -29,9 +29,9 @@ class AutonomousR : LinearOpMode() {
         sleep(1000)
 
         // Move lift up
-        robot!!.lift.setPower(1.0)
+        robot!!.lift.setPowerRaw(1.0)
         sleep(1500)
-        robot!!.lift.setPower(0.0)
+        robot!!.lift.setPowerRaw(0.0)
 
         // Drive forward
         robot!!.wheelBase.move(0.5, 0.0, 0.0)
@@ -58,9 +58,9 @@ class AutonomousR : LinearOpMode() {
         robot!!.wheelBase.move(0.0, 0.0, 0.0)
 
         // Move lift up
-        robot!!.lift.setPower(-1.0)
+        robot!!.lift.setPowerRaw(-1.0)
         sleep(1500)
-        robot!!.lift.setPower(0.0)
+        robot!!.lift.setPowerRaw(0.0)
 
         telemetry.let {
             it.addData("Status", "Run Time: $runtime")
