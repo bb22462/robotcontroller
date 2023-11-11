@@ -56,19 +56,24 @@ class OpModeOneDriver : LinearOpMode() {
 
             // Check the gamepad buttons and open/close the manipulator
             if (gamepad1.b) {
-                if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.maxPos) {
+                if (robot!!.manipulator.ManipulatorServo.position >= 0.44) {
                     println("Manipulator is already closed.")
-                } else {
-                    robot!!.manipulator.setPos(0.5)
+                }
+                else if (robot!!.manipulator.MoveServo.position >= 0.59) {
+                    println("Уже все поднято")
+                }
+
+                else {
+                    robot!!.manipulator.setPos(0.4)
                     sleep(500)
-                    robot!!.manipulator.moveSetPos(0.6)
+                    robot!!.manipulator.moveSetPos(0.59)
                 }
             }
             else if (gamepad1.x) {
                 if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.minPos) {
                     println("Manipulator is already opened.")
                 } else {
-                    robot!!.manipulator.setPos(0.2)
+                    robot!!.manipulator.setPos(0.19)
                 }
             }
 
@@ -83,6 +88,7 @@ class OpModeOneDriver : LinearOpMode() {
                 robot!!.lift.setPower(1.0)
             }
             else if (gamepad1.dpad_down) {
+
                 robot!!.lift.setPower(-1.0)
             }
             else {
@@ -97,8 +103,6 @@ class OpModeOneDriver : LinearOpMode() {
                 it.addData("Status", "Run Time: $runtime")
                 it.addData("Front Left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower)
                 it.addData("Back  Left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower)
-                it.addData("Left", "Position: ${robot!!.lift.leftLiftDrive.currentPosition}")
-                it.addData("Right", "Position: ${robot!!.lift.rightLiftDrive.currentPosition}")
                 it.update()
             }
         }
