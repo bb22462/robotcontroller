@@ -8,9 +8,9 @@ class Manipulator(var robot: Robot) {
     var MoveServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "move_servo")
 
     @JvmField
-    val maxPos = 0.9
+    val maxPos = 0.5
     @JvmField
-    val minPos = 0.0
+    val minPos = 0.2
     @JvmField
     val increment = 0.1;
 

@@ -2,7 +2,8 @@ package org.firstinspires.ftc.teamcode.robot
 
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
-import org.firstinspires.ftc.teamcode.programms.autonomous.apriltag.AprilTagDetectionPipeline
+import org.firstinspires.ftc.teamcode.robot.pipelines.CSPipelineBlue
+import org.firstinspires.ftc.teamcode.robot.pipelines.CSPipelineRed
 import org.openftc.apriltag.AprilTagDetection
 import org.openftc.easyopencv.OpenCvCamera
 import org.openftc.easyopencv.OpenCvCamera.AsyncCameraOpenListener
@@ -22,32 +23,24 @@ class Camera(var robot: Robot) {
             WebcamName::class.java, "webcam"
         ), cameraMonitorViewId
     )
-    val FEET_PER_METER = 3.28084
 
-    // Lens intrinsics
-    // UNITS ARE PIXELS
-    // NOTE: this calibration is for the C920 webcam at 800x448.
-    // You will need to do your own calibration for other configurations!
-    private var fx = 578.272
-    private var fy = 578.272
-    private var cx = 402.145
-    private var cy = 221.506
+    private var CSPipeLineRed: CSPipelineRed =
+            CSPipelineRed()
+    private var CSPipeLineBlue: CSPipelineBlue =
+            CSPipelineBlue()
 
-    // UNITS ARE METERS
-    private var tagsize = 0.166
-
-    private var tagOfInterest1 = 9
-    private var tagOfInterest2 = 18
-    private var tagOfInterest3 = 27
-
-    private var aprilTagDetectionPipeline: AprilTagDetectionPipeline =
-        AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy)
-
-    fun initCamera() {
-        camera.setPipeline(aprilTagDetectionPipeline)
+    // RED - 1
+    // BLUE - 2
+    fun initCamera(alliance: Int) {
+        if(alliance == 1) {
+            camera.setPipeline(CSPipeLineRed)
+        }
+        else {
+            camera.setPipeline(CSPipeLineBlue)
+        }
         camera.openCameraDeviceAsync(object : AsyncCameraOpenListener {
             override fun onOpened() {
-                camera.startStreaming(800, 600, OpenCvCameraRotation.UPRIGHT)
+                camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT)
             }
             override fun onError(errorCode: Int) {}
         })
@@ -57,31 +50,12 @@ class Camera(var robot: Robot) {
         camera.closeCameraDeviceAsync { camera.stopStreaming() }
     }
 
-    fun findTag(): Int {
-        var tagOfInterest = 0
-        val currentDetections: ArrayList<AprilTagDetection> =
-            aprilTagDetectionPipeline.latestDetections
-
-        if (currentDetections.size != 0) {
-            var tagFound = false
-            for (tag in currentDetections) {
-                if (tag.id == tagOfInterest1) {
-                    tagOfInterest = 1
-                    tagFound = true
-                    break
-                }
-                else if (tag.id == tagOfInterest2) {
-                    tagOfInterest = 2
-                    tagFound = true
-                    break
-                }
-                else if (tag.id == tagOfInterest3) {
-                    tagOfInterest = 3
-                    tagFound = true
-                    break
-                }
-            }
-        }
-        return tagOfInterest
+    fun findRed(): Int {
+        val current = CSPipeLineRed.location
+        return current;
+    }
+    fun findBlue(): Int {
+        val current = CSPipeLineBlue.location
+        return current;
     }
 }
