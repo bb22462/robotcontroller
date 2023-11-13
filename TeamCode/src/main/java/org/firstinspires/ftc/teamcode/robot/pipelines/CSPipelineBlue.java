@@ -16,23 +16,25 @@ public class CSPipelineBlue extends OpenCvPipeline
     // BLUE - 2
 
     Mat YCbCr = new Mat();
-    Mat leftCrop;
-    Mat centerCrop;
-    Mat rightCrop;
+    Mat leftCrop = new Mat();
+    Mat centerCrop = new Mat();
+    Mat rightCrop = new Mat();
+    Mat leftExtract = new Mat();
+    Mat centerExtract = new Mat();
+    Mat rightExtract = new Mat();
     double leftavgfin;
     double centeravgfin;
     double rightavgfin;
     Mat output = new Mat();
     Scalar rectColor = new Scalar(255.0, 0, 0);
+    Rect leftRect = new Rect(1, 1, 213, 479);
+    Rect centerRect = new Rect(214, 1, 213, 479);
+    Rect rightRect = new Rect(427, 1, 213, 479);
     public int location = 0;
 
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, YCbCr, Imgproc.COLOR_RGB2YCrCb);
-
-        Rect leftRect = new Rect(1, 1, 213, 479);
-        Rect centerRect = new Rect(214, 1, 213, 479);
-        Rect rightRect = new Rect(427, 1, 213, 479);
 
         input.copyTo(output);
         Imgproc.rectangle(output, leftRect, rectColor, 2);
@@ -43,13 +45,13 @@ public class CSPipelineBlue extends OpenCvPipeline
         centerCrop = YCbCr.submat(centerRect);
         rightCrop = YCbCr.submat(rightRect);
 
-        Core.extractChannel(leftCrop, leftCrop, 2);
-        Core.extractChannel(rightCrop, rightCrop, 2);
-        Core.extractChannel(centerCrop, centerCrop, 2);
+        Core.extractChannel(leftCrop, leftExtract, 2);
+        Core.extractChannel(rightCrop, rightExtract, 2);
+        Core.extractChannel(centerCrop, centerExtract, 2);
 
-        Scalar leftavg = Core.mean(leftCrop);
-        Scalar centeravg = Core.mean(centerCrop);
-        Scalar rightavg = Core.mean(rightCrop);
+        Scalar leftavg = Core.mean(leftExtract);
+        Scalar centeravg = Core.mean(centerExtract);
+        Scalar rightavg = Core.mean(rightExtract);
 
         leftavgfin = leftavg.val[0];
         centeravgfin = centeravg.val[0];
