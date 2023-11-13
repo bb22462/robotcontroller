@@ -29,7 +29,6 @@ public class CSPipelineRed extends OpenCvPipeline
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, YCbCr, Imgproc.COLOR_RGB2YCrCb);
-        telemetry.addLine("Pipeline running!");
 
         Rect leftRect = new Rect(1, 1, 213, 479);
         Rect centerRect = new Rect(214, 1, 213, 479);
@@ -44,9 +43,9 @@ public class CSPipelineRed extends OpenCvPipeline
         centerCrop = YCbCr.submat(centerRect);
         rightCrop = YCbCr.submat(rightRect);
 
-        Core.extractChannel(leftCrop, leftCrop, 2);
-        Core.extractChannel(rightCrop, rightCrop, 2);
-        Core.extractChannel(centerCrop, centerCrop, 2);
+        Core.extractChannel(leftCrop, leftCrop, 1);
+        Core.extractChannel(rightCrop, rightCrop, 1);
+        Core.extractChannel(centerCrop, centerCrop, 1);
 
         Scalar leftavg = Core.mean(leftCrop);
         Scalar centeravg = Core.mean(centerCrop);
@@ -57,15 +56,13 @@ public class CSPipelineRed extends OpenCvPipeline
         rightavgfin = rightavg.val[0];
 
         if (leftavgfin > centeravgfin && leftavgfin > rightavgfin) {
-            telemetry.addLine("Left");
             location = 1;
         }
         else if (centeravgfin > leftavgfin && centeravgfin > rightavgfin) {
-            telemetry.addLine("Center");
             location = 2;
         }
         else {
-            telemetry.addLine("Right");
+
             location = 3;
         }
 

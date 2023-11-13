@@ -21,10 +21,4 @@ class Manipulator(var robot: Robot) {
     fun moveSetPos(pos: Double) {
         MoveServo.position = pos
     }
-    fun increment() {
-        MoveServo.position = 0.3;
-    }
-    fun decrement() {
-        MoveServo.position = 0.0
-    }
 }
