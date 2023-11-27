@@ -40,7 +40,7 @@ class Camera(var robot: Robot) {
         }
         camera.openCameraDeviceAsync(object : AsyncCameraOpenListener {
             override fun onOpened() {
-                camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT)
+                camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT)
             }
             override fun onError(errorCode: Int) {}
         })

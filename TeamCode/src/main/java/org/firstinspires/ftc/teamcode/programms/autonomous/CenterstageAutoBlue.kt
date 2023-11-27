@@ -24,7 +24,6 @@ class CenterstageAutoBlue : LinearOpMode() {
                 }
 
                 while (!isStarted && !isStopRequested) {
-                        robot!!.lift.resetEncoder()
                         tag = robot!!.camera.findBlue()
                         telemetry.let {
                                 it.addData("Camera", "Location: $tag")

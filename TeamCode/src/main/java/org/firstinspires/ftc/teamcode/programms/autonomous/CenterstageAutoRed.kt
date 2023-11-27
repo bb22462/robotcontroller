@@ -24,7 +24,6 @@ class CenterstageAutoRed : LinearOpMode() {
                 }
 
                 while (!isStarted && !isStopRequested) {
-                        robot!!.lift.resetEncoder()
                         tag = robot!!.camera.findRed()
                         telemetry.let {
                                 it.addData("Camera", "Location: $tag")
