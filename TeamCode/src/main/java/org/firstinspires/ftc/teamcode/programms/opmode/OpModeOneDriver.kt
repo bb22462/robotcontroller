@@ -19,9 +19,9 @@ class OpModeOneDriver : LinearOpMode() {
         @JvmField
         var openPos = 0.7
         @JvmField
-        var moveClosePos = 0.15
+        var moveClosePos = 0.6
         @JvmField
-        var moveOpenPos = 0.6
+        var moveOpenPos = 0.21
     }
     private val runtime = ElapsedTime();
     var robot: Robot? = null
@@ -75,6 +75,7 @@ class OpModeOneDriver : LinearOpMode() {
                     println("Manipulator is already closed.")
                 } else {
                     robot!!.manipulator.setPos(closePos)
+                    sleep(500)
                     robot!!.manipulator.moveSetPos(moveClosePos)
                 }
             }
