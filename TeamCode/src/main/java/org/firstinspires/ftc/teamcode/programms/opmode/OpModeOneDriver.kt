@@ -10,9 +10,15 @@ import org.firstinspires.ftc.teamcode.robot.Robot
 import kotlin.math.abs
 import kotlin.math.max
 
+
+// 1) Axial:    Driving forward and backward               Left-joystick Forward/Backward
+// 2) Lateral:  Strafing right and left                     Left-joystick Right and Left
+// 3) Yaw:      Rotating Clockwise and counter clockwise    Right-joystick Right and Left
 @Config
 @TeleOp(name = "OpMode [1 Driver]", group = "Linear OpMode")
 class OpModeOneDriver : LinearOpMode() {
+
+    //Companion object with variables for dashboard
     companion object {
         @JvmField
         var closePos = 0.4
@@ -21,12 +27,14 @@ class OpModeOneDriver : LinearOpMode() {
         @JvmField
         var moveClosePos = 0.6
         @JvmField
-        var moveOpenPos = 0.21
+        var moveOpenPos = 0.2
     }
+
     private val runtime = ElapsedTime();
     var robot: Robot? = null
 
     override fun runOpMode() {
+        // Re-translate telemetry to dashboard
         telemetry = MultipleTelemetry(telemetry, FtcDashboard.getInstance().telemetry)
 
         robot = Robot(this)
@@ -110,8 +118,10 @@ class OpModeOneDriver : LinearOpMode() {
             // Show the elapsed game time, wheel power and manipulator's position.
             telemetry.let {
                 it.addData("Status", "Run Time: $runtime")
-                it.addData("man", "Position: ${robot!!.manipulator.ManipulatorServo.position}")
-                it.addData("move", "Position: ${robot!!.manipulator.MoveServo.position}")
+                it.addData("1", "Position: ${robot!!.wheelBase.leftFrontDrive.currentPosition}")
+                it.addData("2", "Position: ${robot!!.wheelBase.leftBackDrive.currentPosition}")
+                it.addData("3", "Position: ${robot!!.wheelBase.rightFrontDrive.currentPosition}")
+                it.addData("4", "Position: ${robot!!.wheelBase.rightBackDrive.currentPosition}")
                 it.update()
             }
         }

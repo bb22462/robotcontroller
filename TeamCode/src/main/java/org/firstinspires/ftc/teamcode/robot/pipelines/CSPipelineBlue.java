@@ -27,9 +27,9 @@ public class CSPipelineBlue extends OpenCvPipeline
     double rightavgfin;
     Mat output = new Mat();
     Scalar rectColor = new Scalar(255.0, 0, 0);
-    Rect leftRect = new Rect(1, 1, 213, 479);
-    Rect centerRect = new Rect(214, 1, 213, 479);
-    Rect rightRect = new Rect(427, 1, 213, 479);
+    Rect leftRect = new Rect(1, 1, 426, 719);
+    Rect centerRect = new Rect(427, 1, 426, 719);
+    Rect rightRect = new Rect(853, 1, 426, 719);;
     public int location = 0;
 
     @Override
