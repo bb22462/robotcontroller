@@ -71,7 +71,10 @@ public class CenterstageAutoRed extends LinearOpMode {
 
     public static Double forwardDist = 46.0;
     public static Double forwardDistOt = 50.0;
+    public static Double turnDist = 5.0;
 
+    public static Double turnThree = 270.0;
+    public static Double turnOne = 90.0;
     public static double moveClosePos = 0.3;
 
     // Declare OpMode members for each of the 4 motors.
@@ -112,22 +115,36 @@ public class CenterstageAutoRed extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         if(tag == 2) {
-            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
+            robot.wheelBase.moveEncoder(forwardDist, 0, 0, 0.7);
             sleep(1000);
+            robot.manipulator.moveSetPos(0.2);
+            sleep(2000);
             robot.manipulator.setPos(0.75);
         }
         else if(tag == 1) {
             sleep(1000);
-            robot.wheelBase.moveEncoder(forwardDist, 0, 0, 0.7);
+            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, 270, 0.7);
+            robot.wheelBase.moveEncoder(0, 0, turnOne, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(3, 0, 0, 0.7);
+            sleep(1000);
+            robot.manipulator.moveSetPos(0.2);
+            sleep(2000);
+            robot.manipulator.setPos(0.75);
         }
         else if(tag == 3) {
 
             sleep(1000);
             robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, 270, 0.7);
+            robot.wheelBase.moveEncoder(0, 0, turnThree, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(3, 0, 0, 0.7);
+            sleep(1000);
+            robot.manipulator.moveSetPos(0.2);
+            sleep(2000);
+            robot.manipulator.setPos(0.75);
         }
 
 
