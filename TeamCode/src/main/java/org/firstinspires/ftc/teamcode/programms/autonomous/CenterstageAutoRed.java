@@ -70,6 +70,9 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 public class CenterstageAutoRed extends LinearOpMode {
 
     public static Double forwardDist = 46.0;
+    public static Double forwardDistOt = 50.0;
+
+    public static double moveClosePos = 0.3;
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -102,26 +105,27 @@ public class CenterstageAutoRed extends LinearOpMode {
 
         runtime.reset();
 
+        robot.manipulator.setPos(0.38);
+        sleep(1000);
+        robot.manipulator.moveSetPos(moveClosePos);
+        sleep(2000);
+
         // run until the end of the match (driver presses STOP)
         if(tag == 2) {
-            robot.manipulator.setPos(0.38);
-            sleep(1000);
-            robot.wheelBase.moveEncoder(forwardDist, 0, 0, 0.7);
+            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
             sleep(1000);
             robot.manipulator.setPos(0.75);
-
         }
         else if(tag == 1) {
-            robot.manipulator.setPos(0.38);
             sleep(1000);
             robot.wheelBase.moveEncoder(forwardDist, 0, 0, 0.7);
             sleep(1000);
             robot.wheelBase.moveEncoder(0, 0, 270, 0.7);
         }
         else if(tag == 3) {
-            robot.manipulator.setPos(0.38);
+
             sleep(1000);
-            robot.wheelBase.moveEncoder(forwardDist, 0, 0, 0.7);
+            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
             sleep(1000);
             robot.wheelBase.moveEncoder(0, 0, 270, 0.7);
         }

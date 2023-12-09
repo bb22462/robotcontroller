@@ -7,6 +7,8 @@ class Manipulator(var robot: Robot) {
     var ManipulatorServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "manipulator_servo")
     @JvmField
     var MoveServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "move_servo")
+    @JvmField
+    var Samolet: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "samolet")
 
     @JvmField
     val maxPos = 0.5
@@ -23,5 +25,8 @@ class Manipulator(var robot: Robot) {
     }
     fun moveSetPos(pos: Double) {
         MoveServo.position = pos
+    }
+    fun moveSamolet(pos: Double) {
+        Samolet.position = pos
     }
 }

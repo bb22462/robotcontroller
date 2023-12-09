@@ -14,7 +14,7 @@ import kotlin.math.sign
 class WheelBase(var robot: Robot) {
     companion object {
         @JvmField
-        var forwardSideK = 0.04
+        var forwardSideK = 0.03
         @JvmField
         var angleK = 0.028
     }

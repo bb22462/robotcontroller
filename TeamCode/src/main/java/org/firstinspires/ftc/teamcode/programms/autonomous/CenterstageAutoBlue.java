@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.programms.autonomous;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -64,8 +65,12 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
  */
 
 @Autonomous(name="Blue Alliance Autonomous", group="Linear OpMode")
+@Config
 public class CenterstageAutoBlue extends LinearOpMode {
 
+    public static Double forwardDist = 46.0;
+    public static Double forwardDistOt = 50.0;
+    public static double moveClosePos = 0.25;
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
     private int tag = 0;
@@ -75,10 +80,8 @@ public class CenterstageAutoBlue extends LinearOpMode {
     public void runOpMode() {
 
         robot = new Robot(this);
-
         // Wait for the game to start (driver presses PLAY)
         robot.camera.initCamera(2);
-        waitForStart();
         runtime.reset();
 
         // Wait for the game to start (driver presses PLAY)
@@ -88,7 +91,10 @@ public class CenterstageAutoBlue extends LinearOpMode {
         while (!isStarted() && !isStopRequested()) {
             robot.lift.resetEncoder();
             tag = robot.camera.findBlue();
-            telemetry.addData("Camera", tag);
+            telemetry.addData("gyro", robot.wheelBase.getGyroAngle());
+            telemetry.addData("Camera", Integer.toString(tag));
+            telemetry.addData("Camera", Double.toString(robot.manipulator.ManipulatorServo.getPosition()));
+            telemetry.addData("Camera", Double.toString(robot.manipulator.MoveServo.getPosition()));
             telemetry.update();
         }
 
@@ -96,9 +102,37 @@ public class CenterstageAutoBlue extends LinearOpMode {
 
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+        robot.manipulator.setPos(0.25);
+        sleep(1000);
+        robot.manipulator.moveSetPos(moveClosePos);
+        sleep(2000);
 
-            telemetry.update();
+        // run until the end of the match (driver presses STOP)
+        if(tag == 2) {
+            sleep(1000);
+            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
+            sleep(1000);
+            robot.manipulator.setPos(0.75);
+
         }
-    }}
+        else if(tag == 1) {
+            sleep(1000);
+            robot.wheelBase.moveEncoder(forwardDist, 0, 0, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(0, 0, 270, 0.7);
+        }
+        else if(tag == 3) {
+
+            sleep(1000);
+            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(0, 0, 270, 0.7);
+        }
+
+
+        telemetry.addData("1", Double.toString(robot.wheelBase.forwardError));
+        telemetry.addData("2", Double.toString(robot.wheelBase.sideError));
+        telemetry.addData("3", Double.toString(robot.wheelBase.angleError));
+        telemetry.update();
+    }
+}

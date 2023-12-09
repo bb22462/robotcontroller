@@ -28,6 +28,10 @@ class OpModeOneDriver : LinearOpMode() {
         var moveClosePos = 0.6
         @JvmField
         var moveOpenPos = 0.2
+        @JvmField
+        var samoletclose = 0.5
+        @JvmField
+        var samoletopen = 0.3
     }
 
     private val runtime = ElapsedTime();
@@ -112,6 +116,13 @@ class OpModeOneDriver : LinearOpMode() {
                 robot!!.lift.setPower(0.0)
             }
 
+            if(gamepad1.right_bumper) {
+                robot!!.manipulator.Samolet.position = samoletopen
+            }
+            else if(gamepad1.left_bumper) {
+                robot!!.manipulator.Samolet.position = samoletclose
+            }
+
             // Send calculated power to wheels
             robot!!.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)
 
@@ -121,7 +132,7 @@ class OpModeOneDriver : LinearOpMode() {
                 it.addData("1", "Position: ${robot!!.wheelBase.leftFrontDrive.currentPosition}")
                 it.addData("2", "Position: ${robot!!.wheelBase.leftBackDrive.currentPosition}")
                 it.addData("3", "Position: ${robot!!.wheelBase.rightFrontDrive.currentPosition}")
-                it.addData("4", "Position: ${robot!!.wheelBase.rightBackDrive.currentPosition}")
+                it.addData("serva", "Position: ${robot!!.manipulator.Samolet.position}")
                 it.update()
             }
         }
