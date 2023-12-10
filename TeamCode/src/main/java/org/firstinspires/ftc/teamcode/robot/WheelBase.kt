@@ -92,7 +92,7 @@ class WheelBase(var robot: Robot) {
         rightBackDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
     }
 
-    fun move(direction: Double, side: Double, rotation: Double) {
+    public fun move(direction: Double, side: Double, rotation: Double) {
         leftFrontDrive.power = direction + side + rotation
         rightFrontDrive.power = direction - side - rotation
         leftBackDrive.power = direction - side + rotation
@@ -133,7 +133,7 @@ class WheelBase(var robot: Robot) {
     }
 
 
-    fun setPowerAll(leftFrontPower: Double, rightFrontPower: Double, leftBackPower: Double, rightBackPower: Double) {
+    public fun setPowerAll(leftFrontPower: Double, rightFrontPower: Double, leftBackPower: Double, rightBackPower: Double) {
         leftFrontDrive.power = leftFrontPower
         rightFrontDrive.power = rightFrontPower
         leftBackDrive.power = leftBackPower

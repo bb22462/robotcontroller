@@ -68,12 +68,14 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 @Config
 public class CenterstageAutoBlue extends LinearOpMode {
 
-    public static Double forwardDist = 46.0;
+    public static Double forwardDist = 48.0;
     public static Double forwardDistOt = 50.0;
+    public static Double turnDist = 5.0;
+
+    public static Double turnThree = 90.0;
+    public static Double turnOne = 270.0;
     public static double moveClosePos = 0.3;
 
-    public static Double turnThree = 270.0;
-    public static Double turnOne = 90.0;
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
     private int tag = 0;
@@ -117,6 +119,9 @@ public class CenterstageAutoBlue extends LinearOpMode {
             robot.manipulator.moveSetPos(0.2);
             sleep(2000);
             robot.manipulator.setPos(0.75);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(-10, 0, 0, 0.7);
+
         }
         else if(tag == 1) {
             sleep(1000);
@@ -124,11 +129,14 @@ public class CenterstageAutoBlue extends LinearOpMode {
             sleep(1000);
             robot.wheelBase.moveEncoder(0, 0, turnOne, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(3, 0, 0, 0.7);
+            robot.wheelBase.moveEncoder(6, 0, turnOne, 0.7);
             sleep(1000);
             robot.manipulator.moveSetPos(0.2);
             sleep(2000);
             robot.manipulator.setPos(0.75);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(-10, 0, 0, 0.7);
+
         }
         else if(tag == 3) {
 
@@ -137,13 +145,15 @@ public class CenterstageAutoBlue extends LinearOpMode {
             sleep(1000);
             robot.wheelBase.moveEncoder(0, 0, turnThree, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(3, 0, 0, 0.7);
+            robot.wheelBase.moveEncoder(6, 0, turnThree, 0.7);
             sleep(1000);
             robot.manipulator.moveSetPos(0.2);
             sleep(2000);
             robot.manipulator.setPos(0.75);
-        }
+            sleep(1000);
+            robot.wheelBase.moveEncoder(-10, 0, 0, 0.7);
 
+        }
 
         telemetry.addData("1", Double.toString(robot.wheelBase.forwardError));
         telemetry.addData("2", Double.toString(robot.wheelBase.sideError));

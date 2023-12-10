@@ -27,14 +27,15 @@ public class CSPipelineBlue extends OpenCvPipeline
     double rightavgfin;
     Mat output = new Mat();
     Scalar rectColor = new Scalar(255.0, 0, 0);
-    Rect leftRect = new Rect(1, 1, 426, 719);
-    Rect centerRect = new Rect(427, 1, 426, 719);
-    Rect rightRect = new Rect(853, 1, 426, 719);;
+    Rect leftRect = new Rect(1, 180, 426, 359);
+    Rect centerRect = new Rect(1+426+40, 180, 356, 280);
+    Rect rightRect = new Rect(1+426+426, 180, 426, 359);
     public int location = 0;
 
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, YCbCr, Imgproc.COLOR_RGB2YCrCb);
+
 
         input.copyTo(output);
         Imgproc.rectangle(output, leftRect, rectColor, 2);
@@ -64,6 +65,7 @@ public class CSPipelineBlue extends OpenCvPipeline
             location = 2;
         }
         else {
+
             location = 3;
         }
 

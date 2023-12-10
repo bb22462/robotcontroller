@@ -35,12 +35,13 @@ class Camera(var robot: Robot) {
         if(alliance == 1) {
             camera.setPipeline(CSPipeLineRed)
         }
-        else {
+        else if (alliance == 2) {
             camera.setPipeline(CSPipeLineBlue)
         }
         camera.openCameraDeviceAsync(object : AsyncCameraOpenListener {
             override fun onOpened() {
                 camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT)
+
             }
             override fun onError(errorCode: Int) {}
         })
