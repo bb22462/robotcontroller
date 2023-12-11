@@ -64,19 +64,9 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue Alliance Autonomous", group="Linear OpMode")
+@Autonomous(name="Test Autonomous", group="Linear OpMode")
 @Config
-public class CenterstageAutoBlue extends LinearOpMode {
-
-    public static Double forwardDist = 48.0;
-    public static Double forwardDistOt = 50.0;
-    public static Double turnDist = 5.0;
-
-    public static Double turnThree = 90.0;
-    public static Double turnOne = 270.0;
-    public static double moveClosePos = 0.3;
-
-    // Declare OpMode members for each of the 4 motors.
+public class AutoTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private int tag = 0;
     Robot robot = null;
@@ -98,8 +88,6 @@ public class CenterstageAutoBlue extends LinearOpMode {
             tag = robot.camera.findBlue();
             telemetry.addData("gyro", robot.wheelBase.getGyroAngle());
             telemetry.addData("Camera", Integer.toString(tag));
-            telemetry.addData("Camera", Double.toString(robot.manipulator.ManipulatorServo.getPosition()));
-            telemetry.addData("Camera", Double.toString(robot.manipulator.MoveServo.getPosition()));
             telemetry.update();
         }
 
@@ -107,57 +95,20 @@ public class CenterstageAutoBlue extends LinearOpMode {
 
         runtime.reset();
 
+        // run until the end of the match (driver presses STOP)
         robot.manipulator.setPos(0.38);
         sleep(1000);
-        robot.manipulator.moveSetPos(moveClosePos);
+        robot.manipulator.moveSetPos(0.3);
         sleep(2000);
-
-        // run until the end of the match (driver presses STOP)
-        if(tag == 2) {
-            robot.wheelBase.moveEncoder(forwardDist, 0, 0, 0.7);
-            sleep(1000);
-            robot.manipulator.moveSetPos(0.2);
-            sleep(2000);
-            robot.manipulator.setPos(0.75);
-            sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, 0, 0.7);
-
-        }
-        else if(tag == 1) {
-            sleep(1000);
-            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
-            sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, turnOne, 0.7);
-            sleep(1000);
-            robot.wheelBase.moveEncoder(6, 0, turnOne, 0.7);
-            sleep(1000);
-            robot.manipulator.moveSetPos(0.2);
-            sleep(2000);
-            robot.manipulator.setPos(0.75);
-            sleep(1000);
-            robot.wheelBase.moveEncoder(-10, 0, 0, 0.7);
-
-        }
-        else if(tag == 3) {
-
-            sleep(1000);
-            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
-            sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, turnThree, 0.7);
-            sleep(1000);
-            robot.wheelBase.moveEncoder(6, 0, turnThree, 0.7);
-            sleep(1000);
-            robot.manipulator.moveSetPos(0.2);
-            sleep(2000);
-            robot.manipulator.setPos(0.75);
-            sleep(1000);
-            robot.wheelBase.moveEncoder(-10, 0, 0, 0.7);
-
-        }
+        robot.wheelBase.moveEncoder(48, 0, 0, 0.7);
+        sleep(1000);
+        robot.wheelBase.moveEncoder(0, -12, 0, 0.7);
 
         telemetry.addData("1", Double.toString(robot.wheelBase.forwardError));
         telemetry.addData("2", Double.toString(robot.wheelBase.sideError));
         telemetry.addData("3", Double.toString(robot.wheelBase.angleError));
         telemetry.update();
+
+        sleep(10000);
     }
 }

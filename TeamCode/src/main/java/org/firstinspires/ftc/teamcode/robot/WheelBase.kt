@@ -14,9 +14,11 @@ import kotlin.math.sign
 class WheelBase(var robot: Robot) {
     companion object {
         @JvmField
-        var forwardSideK = 0.03
+        var forwardK = 0.036
         @JvmField
-        var angleK = 0.028
+        var sideK = 0.12
+        @JvmField
+        var angleK = 0.03
     }
     // Declare each motor in drivetrain
     private var imu: BNO055IMU = robot.linearOpMode.hardwareMap.get<BNO055IMU>(BNO055IMU::class.java, "imu")
@@ -120,7 +122,7 @@ class WheelBase(var robot: Robot) {
 
 
             move(
-                    forwardError * power * forwardSideK, sideError * power * forwardSideK, angleError * power * angleK
+                    forwardError * power * forwardK, sideError * power * sideK, angleError * power * angleK
             )
 
         } while((abs(sideError) > 3|| abs(forwardError) > 3 || abs(angleError) > 3) && robot.linearOpMode.opModeIsActive())
