@@ -26,7 +26,7 @@ class WheelBase(var robot: Robot) {
     var rightFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_front_drive")
     var leftBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_back_drive")
     var rightBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_back_drive")
-    private val wheelRadius = 4.9
+    private val wheelRadius = 4.917
     private val wheelLength = wheelRadius * 2 * Math.PI
     private val cmToEncoder = 480 / wheelLength
     var forwardDistance: Double = 0.0

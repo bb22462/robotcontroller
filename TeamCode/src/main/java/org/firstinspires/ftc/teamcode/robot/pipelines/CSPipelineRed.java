@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.pipelines;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -7,52 +9,51 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
-
+@Config
 public class CSPipelineRed extends OpenCvPipeline
 {
     // RED - 1
     // BLUE - 2
 
-    Mat YCbCr = new Mat();
+
+    Mat color = new Mat();
+    Mat output = new Mat();
     Mat leftCrop = new Mat();
     Mat centerCrop = new Mat();
     Mat rightCrop = new Mat();
-    Mat leftExtract = new Mat();
-    Mat centerExtract = new Mat();
-    Mat rightExtract = new Mat();
+
+    public static Scalar lower = new Scalar(60, 40, 100.9);
+    public static Scalar upper = new Scalar(137.4, 199.8, 255);
+
+    Scalar rectColor = new Scalar(255.0, 0, 0);
+    Rect leftRect = new Rect(1, 180, 426, 359);
+    Rect centerRect = new Rect(1+426+40, 180, 356, 280);
+    Rect rightRect = new Rect(1+426+426, 180, 426, 359);
+
     double leftavgfin;
     double centeravgfin;
     double rightavgfin;
-    Mat output = new Mat();
-    Scalar rectColor = new Scalar(255.0, 0, 0);
-    Rect leftRect = new Rect(1, 1, 426, 719);
-    Rect centerRect = new Rect(427, 1, 426, 719);
-    Rect rightRect = new Rect(853, 1, 426, 719);
+
     public int location = 0;
 
+
     @Override
-    public Mat processFrame(Mat input) {
-        Imgproc.cvtColor(input, YCbCr, Imgproc.COLOR_RGB2YCrCb);
+    public Mat processFrame(Mat frame) {
+        Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2HLS);
+        Core.inRange(frame, lower, upper, frame);
 
-
-        input.copyTo(output);
+        frame.copyTo(output);
         Imgproc.rectangle(output, leftRect, rectColor, 2);
         Imgproc.rectangle(output, centerRect, rectColor, 2);
         Imgproc.rectangle(output, rightRect, rectColor, 2);
 
-        leftCrop = YCbCr.submat(leftRect);
-        centerCrop = YCbCr.submat(centerRect);
-        rightCrop = YCbCr.submat(rightRect);
+        leftCrop = frame.submat(leftRect);
+        centerCrop = frame.submat(centerRect);
+        rightCrop = frame.submat(rightRect);
 
-        Core.extractChannel(leftCrop, leftExtract, 1);
-        Core.extractChannel(rightCrop, rightExtract, 1);
-        Core.extractChannel(centerCrop, centerExtract, 1);
-
-        Scalar leftavg = Core.mean(leftExtract);
-        Scalar centeravg = Core.mean(centerExtract);
-        Scalar rightavg = Core.mean(rightExtract);
+        Scalar leftavg = Core.mean(leftCrop);
+        Scalar centeravg = Core.mean(centerCrop);
+        Scalar rightavg = Core.mean(rightCrop);
 
         leftavgfin = leftavg.val[0];
         centeravgfin = centeravg.val[0];
@@ -65,7 +66,6 @@ public class CSPipelineRed extends OpenCvPipeline
             location = 2;
         }
         else {
-
             location = 3;
         }
 

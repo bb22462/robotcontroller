@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot
 
 
+import com.acmerobotics.dashboard.FtcDashboard
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.teamcode.robot.pipelines.CSPipelineBlue
 import org.firstinspires.ftc.teamcode.robot.pipelines.CSPipelineRed
@@ -24,6 +25,7 @@ class Camera(var robot: Robot) {
         ), cameraMonitorViewId
     )
 
+
     private var CSPipeLineRed: CSPipelineRed =
             CSPipelineRed()
     private var CSPipeLineBlue: CSPipelineBlue =
@@ -41,6 +43,7 @@ class Camera(var robot: Robot) {
         camera.openCameraDeviceAsync(object : AsyncCameraOpenListener {
             override fun onOpened() {
                 camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT)
+                FtcDashboard.getInstance().startCameraStream(camera, 60.0);
 
             }
             override fun onError(errorCode: Int) {}
