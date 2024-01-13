@@ -22,10 +22,14 @@ class WheelBase(var robot: Robot) {
     }
     // Declare each motor in drivetrain
     private var imu: BNO055IMU = robot.linearOpMode.hardwareMap.get<BNO055IMU>(BNO055IMU::class.java, "imu")
-    var leftFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_front_drive")
-    var rightFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_front_drive")
-    var leftBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_back_drive")
-    var rightBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_back_drive")
+    @JvmField
+    public var leftFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_front_drive")
+    @JvmField
+    public var rightFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_front_drive")
+    @JvmField
+    public var leftBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_back_drive")
+    @JvmField
+    public var rightBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_back_drive")
     private val wheelRadius = 4.917
     private val wheelLength = wheelRadius * 2 * Math.PI
     private val cmToEncoder = 480 / wheelLength

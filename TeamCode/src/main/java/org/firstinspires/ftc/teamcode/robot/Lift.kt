@@ -30,6 +30,11 @@ class Lift(var robot: Robot) {
         rightLiftDrive.direction = DcMotorSimple.Direction.FORWARD
         leftLiftDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
         rightLiftDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+
+        leftHangDrive.direction = DcMotorSimple.Direction.REVERSE
+        rightHangDrive.direction = DcMotorSimple.Direction.FORWARD
+        leftHangDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
+        rightHangDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
     }
 
     fun setPowerRaw(power: Double) {
@@ -65,7 +70,7 @@ class Lift(var robot: Robot) {
         rightLiftDrive.power = encoderPowerLimitRight(power)
     }
 
-    fun setPowerRawHang(power: Double) {
+    fun setPowerHang(power: Double) {
         leftHangDrive.power = power
         rightHangDrive.power = power
     }

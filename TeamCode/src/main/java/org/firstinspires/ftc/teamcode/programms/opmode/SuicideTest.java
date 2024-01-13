@@ -44,8 +44,14 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
  * 3) Yaw:      Rotating Clockwise and counter clockwise    Right-joystick Right and Left
  */
 @Config
-@TeleOp(name="PODSVETOCHKA!", group="Linear OpMode")
-public class Podsvetochka extends LinearOpMode {
+@TeleOp(name="Тест Суицида Робота", group="Linear OpMode")
+public class SuicideTest extends LinearOpMode {
+
+    public static double closePosLeft = 0.5;
+    public static double openPosLeft = 0;
+    public static double closePosRight = 0.3;
+    public static double openPosRight = 0.8;
+
     Robot robot = null;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -60,26 +66,25 @@ public class Podsvetochka extends LinearOpMode {
         telemetry.update();
 
         robot.lift.resetEncoder();
-        robot.podsvetka.setPower(0);
-        double power = 0;
         waitForStart();
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            while(power < 1) {
-                power += 0.01;
-                robot.podsvetka.setPower(power);
-                sleep(100);
+            if(gamepad1.dpad_up) {
+                robot.manipulator.LeftHangServo.setPosition(openPosLeft);
+                robot.manipulator.RightHangServo.setPosition(openPosRight);
             }
-            while(power > 0) {
-                power -= 0.01;
-                robot.podsvetka.setPower(power);
-                sleep(100);
+            else if(gamepad1.dpad_down) {
+                robot.manipulator.LeftHangServo.setPosition(closePosLeft);
+                robot.manipulator.RightHangServo.setPosition(closePosRight);
             }
 
+
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Left Pos: ", robot.manipulator.LeftHangServo.getPosition());
+            telemetry.addData("Right Pos: ", robot.manipulator.RightHangServo.getPosition());
             telemetry.update();
         }
     }}

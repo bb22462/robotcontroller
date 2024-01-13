@@ -19,8 +19,15 @@ class Manipulator(var robot: Robot) {
     @JvmField
     val minPos = 0.2
     @JvmField
-    val increment = 0.1;
-
+    val increment = 0.1
+    @JvmField
+    val leftMaxPos = 0.5
+    @JvmField
+    val leftMinPos = 0.2
+    @JvmField
+    val rightMaxPos = 0.5
+    @JvmField
+    val rightMinPos = 0.2
 
 
 

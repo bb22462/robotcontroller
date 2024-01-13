@@ -29,9 +29,17 @@ class OpModeOneDriver : LinearOpMode() {
         @JvmField
         var moveOpenPos = 0.2
         @JvmField
-        var samoletclose = 0.5
+        var samoletclose = 0.4
         @JvmField
-        var samoletopen = 0.3
+        var samoletopen = 0.15
+        @JvmField
+        var closePosLeft = 0.5
+        @JvmField
+        var openPosLeft = 0.0
+        @JvmField
+        var closePosRight = 0.3
+        @JvmField
+        var openPosRight = 0.8
     }
 
     private val runtime = ElapsedTime();
@@ -107,13 +115,13 @@ class OpModeOneDriver : LinearOpMode() {
 
             // Check the gamepad buttons and move the lift up down
             if (gamepad1.dpad_up) {
-                robot!!.lift.setPower(1.0)
+                robot!!.lift.setPowerRaw(1.0)
             }
             else if (gamepad1.dpad_down) {
-                robot!!.lift.setPower(-1.0)
+                robot!!.lift.setPowerRaw(-1.0)
             }
             else {
-                robot!!.lift.setPower(0.0)
+                robot!!.lift.setPowerRaw(0.0)
             }
 
             if(gamepad1.right_bumper) {
@@ -122,6 +130,17 @@ class OpModeOneDriver : LinearOpMode() {
             else if(gamepad1.left_bumper) {
                 robot!!.manipulator.Samolet.position = samoletclose
             }
+
+            if (gamepad1.dpad_right) {
+                robot!!.manipulator.LeftHangServo.position = openPosLeft
+                robot!!.manipulator.RightHangServo.position = openPosRight
+            } else if (gamepad1.dpad_left) {
+                robot!!.manipulator.LeftHangServo.position = closePosLeft
+                robot!!.manipulator.RightHangServo.position = closePosRight
+            }
+
+            robot!!.lift.setPowerHang(gamepad1.right_trigger.toDouble())
+            robot!!.lift.setPowerHang(-gamepad1.left_trigger.toDouble())
 
             // Send calculated power to wheels
             robot!!.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)

@@ -9,7 +9,6 @@ public class Robot {
     public Manipulator manipulator;
     public Lift lift;
 
-    public Podsvetka podsvetka;
     public LinearOpMode linearOpMode;
 
     public Robot(LinearOpMode linearOpMode1) {
@@ -17,6 +16,5 @@ public class Robot {
         wheelBase = new WheelBase(this);
         lift = new Lift(this);
         manipulator = new Manipulator(this);
-        podsvetka = new Podsvetka(this);
     }
 }
