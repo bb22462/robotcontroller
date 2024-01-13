@@ -19,6 +19,8 @@ class Lift(var robot: Robot) {
     // Declare each motor in lift.
     public var leftLiftDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_lift_drive")
     public var rightLiftDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_lift_drive")
+    public var leftHangDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_hang_drive")
+    public var rightHangDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_Hang_drive")
 
     init {
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -61,5 +63,10 @@ class Lift(var robot: Robot) {
     fun setPower(power: Double) {
         leftLiftDrive.power = encoderPowerLimitLeft(power)
         rightLiftDrive.power = encoderPowerLimitRight(power)
+    }
+
+    fun setPowerRawHang(power: Double) {
+        leftHangDrive.power = power
+        rightHangDrive.power = power
     }
 }
