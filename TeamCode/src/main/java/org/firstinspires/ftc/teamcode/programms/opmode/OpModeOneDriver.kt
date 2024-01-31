@@ -27,12 +27,19 @@ class OpModeOneDriver : LinearOpMode() {
         @JvmField
         var moveClosePos = 0.6
         @JvmField
-        var moveOpenPos = 0.21
+        var moveOpenPos = 0.2
         @JvmField
-        var samoletopen = 0.4
+        var samoletclose = 0.4
         @JvmField
-        var samoletclose = 0.1
-        
+        var samoletopen = 0.15
+        @JvmField
+        var closePosLeft = 0.5
+        @JvmField
+        var openPosLeft = 0.0
+        @JvmField
+        var closePosRight = 0.3
+        @JvmField
+        var openPosRight = 0.8
     }
 
     private val runtime = ElapsedTime();
@@ -124,9 +131,18 @@ class OpModeOneDriver : LinearOpMode() {
                 robot!!.manipulator.Samolet.position = samoletclose
             }
 
+            if (gamepad1.dpad_right) {
+                robot!!.manipulator.LeftHangServo.position = openPosLeft
+                robot!!.manipulator.RightHangServo.position = openPosRight
+            } else if (gamepad1.dpad_left) {
+                robot!!.manipulator.LeftHangServo.position = closePosLeft
+                robot!!.manipulator.RightHangServo.position = closePosRight
+            }
+
             // Send calculated power to wheels
             robot!!.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)
-
+            robot!!.hang.setPower(gamepad1.right_trigger.toDouble())
+            robot!!.hang.setPower(-gamepad1.left_trigger.toDouble())
             // Show the elapsed game time, wheel power and manipulator's position.
             telemetry.let {
                 it.addData("Status", "Run Time: $runtime")

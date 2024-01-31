@@ -22,7 +22,7 @@ public class Hang {
         this.robot = robot;
     }
 
-    public void SetPower(double power){
+    public void setPower(double power){
         hang.setPower(power);
     }
 }

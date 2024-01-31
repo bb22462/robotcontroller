@@ -9,6 +9,8 @@ public class Robot {
     public Manipulator manipulator;
     public Lift lift;
 
+    public Hang hang;
+
     public Camera camera;
     public LinearOpMode linearOpMode;
 
@@ -18,5 +20,6 @@ public class Robot {
         lift = new Lift(this);
         manipulator = new Manipulator(this);
         camera = new Camera(this);
+        hang = new Hang(this);
     }
 }
