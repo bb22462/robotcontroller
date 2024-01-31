@@ -9,6 +9,10 @@ class Manipulator(var robot: Robot) {
     var MoveServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "move_servo")
     @JvmField
     var Samolet: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "samolet")
+    @JvmField
+    var LeftHangServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "left_hang_servo")
+    @JvmField
+    var RightHangServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "right_hang_servo")
 
     @JvmField
     val maxPos = 0.5
