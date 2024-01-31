@@ -1,14 +1,16 @@
 package org.firstinspires.ftc.teamcode.robot
 
 import com.acmerobotics.dashboard.config.Config
-import com.qualcomm.hardware.bosch.BNO055IMU
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.hardware.IMU
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
 import kotlin.math.abs
 import kotlin.math.sign
+
 
 @Config
 class WheelBase(var robot: Robot) {
@@ -18,15 +20,16 @@ class WheelBase(var robot: Robot) {
         @JvmField
         var sideK = 0.12
         @JvmField
-        var angleK = 0.03
+        var angleK = 0.035
     }
     // Declare each motor in drivetrain
-    private var imu: BNO055IMU = robot.linearOpMode.hardwareMap.get<BNO055IMU>(BNO055IMU::class.java, "imu")
+    private var imu: IMU = robot.linearOpMode.hardwareMap.get<IMU>(IMU::class.java, "imu")
     var leftFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_front_drive")
     var rightFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_front_drive")
     var leftBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_back_drive")
     var rightBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_back_drive")
     private val wheelRadius = 4.917
+    var IMUparameters: IMU.Parameters? = null
     private val wheelLength = wheelRadius * 2 * Math.PI
     private val cmToEncoder = 480 / wheelLength
     var forwardDistance: Double = 0.0
@@ -70,7 +73,14 @@ class WheelBase(var robot: Robot) {
         rightBackDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
         rightBackDrive.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
 
-        imu.initialize(BNO055IMU.Parameters())
+        IMUparameters = IMU.Parameters(
+                RevHubOrientationOnRobot(
+                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                        RevHubOrientationOnRobot.UsbFacingDirection.UP
+                )
+        )
+
+        imu.initialize(IMUparameters)
     }
 
     /* Directions:
@@ -125,13 +135,13 @@ class WheelBase(var robot: Robot) {
                     forwardError * power * forwardK, sideError * power * sideK, angleError * power * angleK
             )
 
-        } while((abs(sideError) > 3|| abs(forwardError) > 3 || abs(angleError) > 3) && robot.linearOpMode.opModeIsActive())
+        } while((abs(sideError) > 1.5 || abs(forwardError) > 1.5 || abs(angleError) > 1.5) && robot.linearOpMode.opModeIsActive())
 
     }
 
 
     public fun getGyroAngle(): Double {
-        return -imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
+        return -imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
     }
 
 

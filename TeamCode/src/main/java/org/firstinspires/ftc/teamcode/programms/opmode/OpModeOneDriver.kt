@@ -27,11 +27,12 @@ class OpModeOneDriver : LinearOpMode() {
         @JvmField
         var moveClosePos = 0.6
         @JvmField
-        var moveOpenPos = 0.2
+        var moveOpenPos = 0.21
         @JvmField
-        var samoletclose = 0.5
+        var samoletopen = 0.4
         @JvmField
-        var samoletopen = 0.3
+        var samoletclose = 0.1
+        
     }
 
     private val runtime = ElapsedTime();
@@ -132,7 +133,7 @@ class OpModeOneDriver : LinearOpMode() {
                 it.addData("1", "Position: ${robot!!.wheelBase.leftFrontDrive.currentPosition}")
                 it.addData("2", "Position: ${robot!!.wheelBase.leftBackDrive.currentPosition}")
                 it.addData("3", "Position: ${robot!!.wheelBase.rightFrontDrive.currentPosition}")
-                it.addData("serva", "Position: ${robot!!.manipulator.Samolet.position}")
+                it.addData("Lift", "Position: ${robot!!.lift.lift.currentPosition}")
                 it.update()
             }
         }

@@ -69,8 +69,8 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 @Config
 public class CenterstageAutoRed extends LinearOpMode {
 
-    public static Double forwardDist = 42.8;
-    public static Double forwardDistOt = 45.0;
+    public static Double forwardDist = 42.5;
+    public static Double forwardDistOt = 46.5;
     public static Double turnDist = 1.0;
 
     public static Double turnThree = 90.0;
@@ -99,8 +99,6 @@ public class CenterstageAutoRed extends LinearOpMode {
             tag = robot.camera.findRed();
             telemetry.addData("gyro", robot.wheelBase.getGyroAngle());
             telemetry.addData("Camera", Integer.toString(tag));
-            telemetry.addData("Camera", Double.toString(robot.manipulator.ManipulatorServo.getPosition()));
-            telemetry.addData("Camera", Double.toString(robot.manipulator.MoveServo.getPosition()));
             telemetry.update();
         }
 
@@ -141,13 +139,11 @@ public class CenterstageAutoRed extends LinearOpMode {
             sleep(1000);
             robot.wheelBase.moveEncoder(0, 0, turnThree, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(6, 0, turnThree, 0.7);
+            robot.wheelBase.moveEncoder(turnDist, 0, turnThree, 0.7);
             sleep(1000);
             robot.manipulator.moveSetPos(0.2);
             sleep(2000);
             robot.manipulator.setPos(0.75);
-            sleep(1000);
-            robot.wheelBase.moveEncoder(-10, 0, 0, 0.7);
 
         }
 
