@@ -29,6 +29,10 @@
 
 package org.firstinspires.ftc.teamcode.programms.autonomous;
 
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.moveClosePos;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.moveOpenPos;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.openPos;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -84,8 +88,8 @@ public class AutoTest extends LinearOpMode {
         telemetry.update();
 
         while (!isStarted() && !isStopRequested()) {
+            robot.wheelBase.imu.initialize(robot.wheelBase.IMUparameters);
             robot.lift.resetEncoder();
-            tag = robot.camera.findBlue();
             telemetry.addData("gyro", robot.wheelBase.getGyroAngle());
             telemetry.addData("Camera", Integer.toString(tag));
             telemetry.update();
@@ -95,14 +99,25 @@ public class AutoTest extends LinearOpMode {
 
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
         robot.manipulator.setPos(0.38);
         sleep(1000);
-        robot.manipulator.moveSetPos(0.3);
+        robot.manipulator.moveSetPos(moveClosePos);
         sleep(2000);
+
+        // run until the end of the match (driver presses STOP)
         robot.wheelBase.moveEncoder(48, 0, 0, 0.7);
-        sleep(1000);
-        robot.wheelBase.moveEncoder(0, -12, 0, 0.7);
+        sleep(2000);
+        robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+        sleep(2000);
+        robot.wheelBase.moveEncoder(73, 0, 90, 0.7);
+        sleep(2000);
+        robot.lift.setPower(1);
+        sleep(350);
+        robot.lift.setPower(0);
+        sleep(2000);
+        robot.manipulator.setPos(openPos);
+        sleep(2000);
+        robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
 
         telemetry.addData("1", Double.toString(robot.wheelBase.forwardError));
         telemetry.addData("2", Double.toString(robot.wheelBase.sideError));

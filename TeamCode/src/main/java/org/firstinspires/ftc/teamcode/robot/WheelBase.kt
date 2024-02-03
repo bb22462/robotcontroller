@@ -16,20 +16,22 @@ import kotlin.math.sign
 class WheelBase(var robot: Robot) {
     companion object {
         @JvmField
-        var forwardK = 0.036
+        var forwardK = 0.04
         @JvmField
         var sideK = 0.12
         @JvmField
-        var angleK = 0.035
+        var angleK = 0.02
     }
     // Declare each motor in drivetrain
-    private var imu: IMU = robot.linearOpMode.hardwareMap.get<IMU>(IMU::class.java, "imu")
+    @JvmField
+    public var imu: IMU = robot.linearOpMode.hardwareMap.get<IMU>(IMU::class.java, "imu")
     var leftFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_front_drive")
     var rightFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_front_drive")
     var leftBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_back_drive")
     var rightBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_back_drive")
     private val wheelRadius = 4.917
-    var IMUparameters: IMU.Parameters? = null
+    @JvmField
+    public var IMUparameters: IMU.Parameters? = null
     private val wheelLength = wheelRadius * 2 * Math.PI
     private val cmToEncoder = 480 / wheelLength
     var forwardDistance: Double = 0.0
@@ -80,7 +82,6 @@ class WheelBase(var robot: Robot) {
                 )
         )
 
-        imu.initialize(IMUparameters)
     }
 
     /* Directions:
@@ -114,8 +115,8 @@ class WheelBase(var robot: Robot) {
     fun moveEncoder(cmForward: Double, cmSide: Double, Angle: Double, power: Double) {
         resetEncoder()
         do {
-            forwardDistance = (leftBackDrive.currentPosition + rightBackDrive.currentPosition) / 2.0 / cmToEncoder
-            sideDistance = (leftFrontDrive.currentPosition - leftBackDrive.currentPosition) / 2.0 / cmToEncoder
+            forwardDistance = (leftBackDrive.currentPosition + rightBackDrive.currentPosition + rightFrontDrive.currentPosition + leftFrontDrive.currentPosition) / 4.0 / cmToEncoder
+            sideDistance = (leftFrontDrive.currentPosition - leftBackDrive.currentPosition - rightFrontDrive.currentPosition + rightBackDrive.currentPosition) / 4.0 / cmToEncoder
             angleDistance = getGyroAngle()
             forwardError = cmForward - forwardDistance
             sideError = cmSide - sideDistance
@@ -135,7 +136,7 @@ class WheelBase(var robot: Robot) {
                     forwardError * power * forwardK, sideError * power * sideK, angleError * power * angleK
             )
 
-        } while((abs(sideError) > 1.5 || abs(forwardError) > 1.5 || abs(angleError) > 1.5) && robot.linearOpMode.opModeIsActive())
+        } while((abs(sideError) > 2.5 || abs(forwardError) > 2.5 || abs(angleError) > 2.5) && robot.linearOpMode.opModeIsActive())
 
     }
 
