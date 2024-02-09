@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode.programms.autonomous;
 
 import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.moveClosePos;
-import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.moveOpenPos;
 import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.openPos;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -68,9 +67,9 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Test Autonomous", group="Linear OpMode")
+@Autonomous(name="Red Auto", group="Linear OpMode")
 @Config
-public class AutoTest extends LinearOpMode {
+public class RedAuto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private int tag = 0;
     Robot robot = null;
@@ -80,7 +79,7 @@ public class AutoTest extends LinearOpMode {
 
         robot = new Robot(this);
         // Wait for the game to start (driver presses PLAY)
-        robot.camera.initCamera(2);
+        robot.camera.initCamera(1);
         runtime.reset();
 
         // Wait for the game to start (driver presses PLAY)
@@ -88,6 +87,7 @@ public class AutoTest extends LinearOpMode {
         telemetry.update();
 
         while (!isStarted() && !isStopRequested()) {
+            tag = robot.camera.findRed();
             robot.wheelBase.imu.initialize(robot.wheelBase.IMUparameters);
             robot.lift.resetEncoder();
             telemetry.addData("gyro", robot.wheelBase.getGyroAngle());
@@ -99,25 +99,81 @@ public class AutoTest extends LinearOpMode {
 
         runtime.reset();
 
-        robot.manipulator.setPos(0.38);
-        sleep(1000);
-        robot.manipulator.moveSetPos(moveClosePos);
-        sleep(2000);
+        if(tag == 1) {
+            robot.manipulator.setPos(0.38);
+            sleep(1000);
+            robot.manipulator.moveSetPos(moveClosePos);
+            sleep(2000);
 
-        // run until the end of the match (driver presses STOP)
-        robot.wheelBase.moveEncoder(48, 0, 0, 0.7);
-        sleep(2000);
-        robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
-        sleep(2000);
-        robot.wheelBase.moveEncoder(73, 0, 90, 0.7);
-        sleep(2000);
-        robot.lift.setPower(1);
-        sleep(350);
-        robot.lift.setPower(0);
-        sleep(2000);
-        robot.manipulator.setPos(openPos);
-        sleep(2000);
-        robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+            // run until the end of the match (driver presses STOP)
+            robot.wheelBase.moveEncoder(46, 0, 0, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(72, 0, 90, 0.7);
+            sleep(1000);
+            robot.lift.setPower(1);
+            sleep(350);
+            robot.lift.setPower(0);
+            sleep(1000);
+            robot.manipulator.setPos(openPos);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(0, 44, 90, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
+        }
+        else if(tag == 2) {
+            robot.manipulator.setPos(0.38);
+            sleep(1000);
+            robot.manipulator.moveSetPos(moveClosePos);
+            sleep(2000);
+
+            // run until the end of the match (driver presses STOP)
+            robot.wheelBase.moveEncoder(44, 0, 0, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(72, 0, 90, 0.7);
+            sleep(1000);
+            robot.lift.setPower(1);
+            sleep(350);
+            robot.lift.setPower(0);
+            sleep(1000);
+            robot.manipulator.setPos(openPos);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(0, 42, 90, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
+        }
+        else if(tag == 3) {
+            robot.manipulator.setPos(0.38);
+            sleep(1000);
+            robot.manipulator.moveSetPos(moveClosePos);
+            sleep(2000);
+
+            // run until the end of the match (driver presses STOP)
+            robot.wheelBase.moveEncoder(42, 0, 0, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(72, 0, 90, 0.7);
+            sleep(1000);
+            robot.lift.setPower(1);
+            sleep(350);
+            robot.lift.setPower(0);
+            sleep(1000);
+            robot.manipulator.setPos(openPos);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(0, 40, 90, 0.7);
+            sleep(1000);
+            robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
+        }
 
         telemetry.addData("1", Double.toString(robot.wheelBase.forwardError));
         telemetry.addData("2", Double.toString(robot.wheelBase.sideError));
