@@ -70,8 +70,8 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 @Config
 public class CenterstageAutoBlue extends LinearOpMode {
 
-    public static Double forwardDist = 42.5;
-    public static Double forwardDistOt = 46.5;
+    public static Double forwardDist = 40.0;
+    public static Double forwardDistOt = 44.0;
     public static Double turnDist = 1.0;
 
     public static Double turnThree = 90.0;

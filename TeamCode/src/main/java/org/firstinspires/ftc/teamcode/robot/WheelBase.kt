@@ -20,7 +20,7 @@ class WheelBase(var robot: Robot) {
         @JvmField
         var sideK = 0.12
         @JvmField
-        var angleK = 0.02
+        var angleK = 0.025
     }
     // Declare each motor in drivetrain
     @JvmField
@@ -29,6 +29,8 @@ class WheelBase(var robot: Robot) {
     var rightFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_front_drive")
     var leftBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_back_drive")
     var rightBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_back_drive")
+    public var leftLight: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_light")
+    public var rightLight: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_light")
     private val wheelRadius = 4.917
     @JvmField
     public var IMUparameters: IMU.Parameters? = null
@@ -137,7 +139,6 @@ class WheelBase(var robot: Robot) {
             )
 
         } while((abs(sideError) > 2.5 || abs(forwardError) > 2.5 || abs(angleError) > 2.5) && robot.linearOpMode.opModeIsActive())
-
     }
 
 

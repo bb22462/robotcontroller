@@ -46,6 +46,7 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
  * 3) Yaw:      Rotating Clockwise and counter clockwise    Right-joystick Right and Left
  */
 @Config
+@Disabled
 @TeleOp(name="OpMode Java Edition", group="Linear OpMode")
 public class JavaOpMode extends LinearOpMode {
 

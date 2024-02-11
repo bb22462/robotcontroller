@@ -106,9 +106,12 @@ class OpModeOneDriver : LinearOpMode() {
                     robot!!.manipulator.setPos(openPos)
                 }
             }
-
             else if (gamepad1.a) {
                 robot!!.manipulator.moveSetPos(moveOpenPos)
+            }
+            else if (gamepad1.y) {
+                robot!!.manipulator.LeftHangServo.position = openPosLeft
+                robot!!.manipulator.RightHangServo.position = openPosRight
             }
 
 
@@ -130,13 +133,19 @@ class OpModeOneDriver : LinearOpMode() {
             else if(gamepad1.left_bumper) {
                 robot!!.manipulator.Samolet.position = samoletclose
             }
+            //Sensors
+            if(robot!!.sensor.sensorRight.voltage < 0.12) {
+                robot!!.wheelBase.rightLight.power = 1.0
+            }
+            else {
+                robot!!.wheelBase.rightLight.power = 0.0
+            }
 
-            if (gamepad1.dpad_right) {
-                robot!!.manipulator.LeftHangServo.position = openPosLeft
-                robot!!.manipulator.RightHangServo.position = openPosRight
-            } else if (gamepad1.dpad_left) {
-                robot!!.manipulator.LeftHangServo.position = closePosLeft
-                robot!!.manipulator.RightHangServo.position = closePosRight
+            if(robot!!.sensor.sensorLeft.voltage < 0.12) {
+                robot!!.wheelBase.leftLight.power = 1.0
+            }
+            else {
+                robot!!.wheelBase.leftLight.power = 0.0
             }
 
             // Send calculated power to wheels
@@ -146,9 +155,10 @@ class OpModeOneDriver : LinearOpMode() {
             // Show the elapsed game time, wheel power and manipulator's position.
             telemetry.let {
                 it.addData("Status", "Run Time: $runtime")
-                it.addData("1", "Position: ${robot!!.wheelBase.leftFrontDrive.currentPosition}")
-                it.addData("2", "Position: ${robot!!.wheelBase.leftBackDrive.currentPosition}")
-                it.addData("3", "Position: ${robot!!.wheelBase.rightFrontDrive.currentPosition}")
+                it.addData("Left Front Wheel", "Position: ${robot!!.wheelBase.leftFrontDrive.currentPosition}")
+                it.addData("Left Back Wheel", "Position: ${robot!!.wheelBase.leftBackDrive.currentPosition}")
+                it.addData("Right Front Wheel", "Position: ${robot!!.wheelBase.rightFrontDrive.currentPosition}")
+                it.addData("Right Back Wheel", "Position: ${robot!!.wheelBase.rightBackDrive.currentPosition}")
                 it.addData("Lift", "Position: ${robot!!.lift.lift.currentPosition}")
                 it.update()
             }

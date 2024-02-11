@@ -67,9 +67,9 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Red Auto", group="Linear OpMode")
+@Autonomous(name="Blue Auto", group="Linear OpMode")
 @Config
-public class RedAuto extends LinearOpMode {
+public class BlueAuto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private int tag = 0;
     Robot robot = null;
@@ -79,7 +79,7 @@ public class RedAuto extends LinearOpMode {
 
         robot = new Robot(this);
         // Wait for the game to start (driver presses PLAY)
-        robot.camera.initCamera(1);
+        robot.camera.initCamera(2);
         runtime.reset();
 
         // Wait for the game to start (driver presses PLAY)
@@ -87,7 +87,7 @@ public class RedAuto extends LinearOpMode {
         telemetry.update();
 
         while (!isStarted() && !isStopRequested()) {
-            tag = robot.camera.findRed();
+            tag = robot.camera.findBlue();
             robot.wheelBase.imu.initialize(robot.wheelBase.IMUparameters);
             robot.lift.resetEncoder();
             telemetry.addData("gyro", robot.wheelBase.getGyroAngle());
@@ -108,9 +108,9 @@ public class RedAuto extends LinearOpMode {
             // run until the end of the match (driver presses STOP)
             robot.wheelBase.moveEncoder(46, 0, 0, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(0, 0, 270, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(74, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(74, 0, 270, 0.7);
             sleep(1000);
             robot.lift.setPower(1);
             sleep(350);
@@ -118,15 +118,15 @@ public class RedAuto extends LinearOpMode {
             sleep(1000);
             robot.manipulator.setPos(openPos);
             sleep(1000);
-            robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(-40, 0, 270, 0.7);
             sleep(1000);
             robot.lift.setPower(-1);
             sleep(400);
             robot.lift.setPower(0);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 44, 90, 0.7);
+            robot.wheelBase.moveEncoder(0, -44, 270, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(40, 0, 270, 0.7);
         }
         else if(tag == 2) {
             robot.manipulator.setPos(0.38);
@@ -137,9 +137,9 @@ public class RedAuto extends LinearOpMode {
             // run until the end of the match (driver presses STOP)
             robot.wheelBase.moveEncoder(44, 0, 0, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(0, 0, 270, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(74, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(74, 0, 270, 0.7);
             sleep(1000);
             robot.lift.setPower(1);
             sleep(350);
@@ -147,15 +147,15 @@ public class RedAuto extends LinearOpMode {
             sleep(1000);
             robot.manipulator.setPos(openPos);
             sleep(1000);
-            robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(-40, 0, 270, 0.7);
             sleep(1000);
             robot.lift.setPower(-1);
             sleep(400);
             robot.lift.setPower(0);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 42, 90, 0.7);
+            robot.wheelBase.moveEncoder(0, -42, 270, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(40, 0, 270, 0.7);
         }
         else if(tag == 3) {
             robot.manipulator.setPos(0.38);
@@ -166,10 +166,9 @@ public class RedAuto extends LinearOpMode {
             // run until the end of the match (driver presses STOP)
             robot.wheelBase.moveEncoder(42, 0, 0, 0.7);
             sleep(1000);
-            
-            robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(0, 0, 270, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(74, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(74, 0, 270, 0.7);
             sleep(1000);
             robot.lift.setPower(1);
             sleep(350);
@@ -177,15 +176,15 @@ public class RedAuto extends LinearOpMode {
             sleep(1000);
             robot.manipulator.setPos(openPos);
             sleep(1000);
-            robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(-40, 0, 270, 0.7);
             sleep(1000);
             robot.lift.setPower(-1);
             sleep(400);
             robot.lift.setPower(0);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 40, 90, 0.7);
+            robot.wheelBase.moveEncoder(0, -40, 270, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(40, 0, 270, 0.7);
         }
 
         telemetry.addData("1", Double.toString(robot.wheelBase.forwardError));

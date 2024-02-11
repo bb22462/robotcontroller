@@ -8,7 +8,7 @@ class Lift(var robot: Robot) {
         @JvmField
         var bottom = 0;
         @JvmField
-        var up = -1500;
+        var up = -1800;
     }
     private val spoolRadiusMm = 25.0
     private val spoolCircumference = spoolRadiusMm * 2.0 * Math.PI
