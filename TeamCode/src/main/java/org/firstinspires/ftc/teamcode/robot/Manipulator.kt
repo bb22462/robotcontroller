@@ -29,14 +29,21 @@ class Manipulator(var robot: Robot) {
     @JvmField
     val openPos = 0.1;
 
-
+    init {
+        ManipulatorServoLeft.direction = Servo.Direction.FORWARD
+        ManipulatorServoRight.direction = Servo.Direction.REVERSE
+    }
 
 
     fun setPosAll(posl: Double, posr: Double) {
-        ManipulatorServoLeft.direction = Servo.Direction.FORWARD
-        ManipulatorServoRight.direction = Servo.Direction.REVERSE
         ManipulatorServoLeft.position = posl
         ManipulatorServoRight.position = posr
+    }
+    fun setPosLeft(pos: Double) {
+        ManipulatorServoLeft.position = pos
+    }
+    fun setPosRight(pos: Double) {
+        ManipulatorServoRight.position = pos
     }
     fun setPos(pos: Double) {
         ManipulatorServoLeft.position = pos

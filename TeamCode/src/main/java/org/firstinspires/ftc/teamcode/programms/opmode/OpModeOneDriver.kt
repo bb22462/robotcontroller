@@ -117,16 +117,16 @@ class OpModeOneDriver : LinearOpMode() {
                 robot!!.manipulator.moveSetPos(moveClosePos)
             }
             else if(gamepad1.y) {
-                robot!!.manipulator.setPosAll(robot!!.manipulator.ManipulatorServoLeft.position, closePosR)
+                robot!!.manipulator.setPosRight(closePosR)
             }
             else if(gamepad1.b) {
-                robot!!.manipulator.setPosAll(robot!!.manipulator.ManipulatorServoLeft.position, openPosR)
+                robot!!.manipulator.setPosRight(openPosR)
             }
             else if(gamepad1.x) {
-                robot!!.manipulator.setPosAll(closePosL, robot!!.manipulator.ManipulatorServoRight.position)
+                robot!!.manipulator.setPosLeft(closePosL)
             }
-            else if(gamepad1.b) {
-                robot!!.manipulator.setPosAll(openPosL, robot!!.manipulator.ManipulatorServoRight.position)
+            else if(gamepad1.a) {
+                robot!!.manipulator.setPosLeft(openPosL)
             }
 
 
@@ -140,13 +140,6 @@ class OpModeOneDriver : LinearOpMode() {
             }
             else {
                 robot!!.lift.setPower(0.0)
-            }
-
-            if(gamepad1.right_bumper) {
-                robot!!.manipulator.Samolet.position = samoletopen
-            }
-            else if(gamepad1.left_bumper) {
-                robot!!.manipulator.Samolet.position = samoletclose
             }
             //Sensors
             if(robot!!.sensor.sensorRight.voltage < 0.12) {
