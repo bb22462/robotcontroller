@@ -16,11 +16,12 @@ import kotlin.math.sign
 class WheelBase(var robot: Robot) {
     companion object {
         @JvmField
-        var forwardK = 0.04
+        var forwardK = 0.07
         @JvmField
         var sideK = 0.12
         @JvmField
-        var angleK = 0.025
+        var angleK = 0.06
+
     }
     // Declare each motor in drivetrain
     @JvmField
@@ -138,7 +139,7 @@ class WheelBase(var robot: Robot) {
                     forwardError * power * forwardK, sideError * power * sideK, angleError * power * angleK
             )
 
-        } while((abs(sideError) > 2.5 || abs(forwardError) > 2.5 || abs(angleError) > 2.5) && robot.linearOpMode.opModeIsActive())
+        } while((abs(sideError) > 0.5 || abs(forwardError) > 0.5 || abs(angleError) > 1) && robot.linearOpMode.opModeIsActive())
     }
 
 

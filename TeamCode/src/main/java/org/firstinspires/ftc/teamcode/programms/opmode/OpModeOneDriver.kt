@@ -21,13 +21,19 @@ class OpModeOneDriver : LinearOpMode() {
     //Companion object with variables for dashboard
     companion object {
         @JvmField
-        var closePos = 0.4
+        var closePosL = 0.7
+        @JvmField
+        var openPosL = 0.4
+        @JvmField
+        var closePosR = 0.6
+        @JvmField
+        var openPosR = 0.4
         @JvmField
         var openPos = 0.7
         @JvmField
-        var moveClosePos = 0.6
+        var moveClosePos = 0.3
         @JvmField
-        var moveOpenPos = 0.2
+        var moveOpenPos = 0.77
         @JvmField
         var samoletclose = 0.4
         @JvmField
@@ -91,19 +97,19 @@ class OpModeOneDriver : LinearOpMode() {
 
             // Check the gamepad buttons and open/close the manipulator
             if (gamepad1.b) {
-                if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.maxPos) {
+                if (robot!!.manipulator.ManipulatorServoLeft.position == robot!!.manipulator.LeftmaxPos) {
                     println("Manipulator is already closed.")
                 } else {
-                    robot!!.manipulator.setPos(closePos)
+                    robot!!.manipulator.setPosAll(closePosL, closePosR)
                     sleep(500)
                     robot!!.manipulator.moveSetPos(moveClosePos)
                 }
             }
             else if (gamepad1.x) {
-                if (robot!!.manipulator.ManipulatorServo.position == robot!!.manipulator.minPos) {
+                if (robot!!.manipulator.ManipulatorServoLeft.position == robot!!.manipulator.LeftminPos) {
                     println("Manipulator is already opened.")
                 } else {
-                    robot!!.manipulator.setPos(openPos)
+                    robot!!.manipulator.setPosAll(openPosL, openPosR)
                 }
             }
             else if (gamepad1.a) {
@@ -159,7 +165,7 @@ class OpModeOneDriver : LinearOpMode() {
                 it.addData("Left Back Wheel", "Position: ${robot!!.wheelBase.leftBackDrive.currentPosition}")
                 it.addData("Right Front Wheel", "Position: ${robot!!.wheelBase.rightFrontDrive.currentPosition}")
                 it.addData("Right Back Wheel", "Position: ${robot!!.wheelBase.rightBackDrive.currentPosition}")
-                it.addData("Lift", "Position: ${robot!!.lift.lift.currentPosition}")
+                it.addData("Left", "Position: ${robot!!.manipulator.MoveServo.position}")
                 it.update()
             }
         }

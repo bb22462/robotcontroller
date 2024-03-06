@@ -110,7 +110,7 @@ public class RedAuto extends LinearOpMode {
             sleep(1000);
             robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(74, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(75, 0, 90, 0.7);
             sleep(1000);
             robot.lift.setPower(1);
             sleep(350);
@@ -139,7 +139,7 @@ public class RedAuto extends LinearOpMode {
             sleep(1000);
             robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(74, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(75, 0, 90, 0.7);
             sleep(1000);
             robot.lift.setPower(1);
             sleep(350);
@@ -169,7 +169,7 @@ public class RedAuto extends LinearOpMode {
             
             robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(74, 0, 90, 0.7);
+            robot.wheelBase.moveEncoder(75, 0, 90, 0.7);
             sleep(1000);
             robot.lift.setPower(1);
             sleep(350);

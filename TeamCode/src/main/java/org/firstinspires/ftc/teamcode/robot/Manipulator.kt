@@ -4,7 +4,9 @@ import com.qualcomm.robotcore.hardware.Servo
 
 class Manipulator(var robot: Robot) {
     @JvmField
-    var ManipulatorServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "manipulator_servo")
+    var ManipulatorServoLeft: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "left_manipulator_servo")
+    @JvmField
+    var ManipulatorServoRight: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "right_manipulator_servo")
     @JvmField
     var MoveServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "move_servo")
     @JvmField
@@ -15,17 +17,30 @@ class Manipulator(var robot: Robot) {
     var RightHangServo: Servo = robot.linearOpMode.hardwareMap.get(Servo::class.java, "right_hang_servo")
 
     @JvmField
-    val maxPos = 0.5
+    val LeftmaxPos = 0.5
     @JvmField
-    val minPos = 0.2
+    val LeftminPos = 0.2
+    @JvmField
+    val RightmaxPos = 0.5
+    @JvmField
+    val RightminPos = 0.2
     @JvmField
     val increment = 0.1;
+    @JvmField
+    val openPos = 0.1;
 
 
 
 
+    fun setPosAll(posl: Double, posr: Double) {
+        ManipulatorServoLeft.direction = Servo.Direction.FORWARD
+        ManipulatorServoRight.direction = Servo.Direction.REVERSE
+        ManipulatorServoLeft.position = posl
+        ManipulatorServoRight.position = posr
+    }
     fun setPos(pos: Double) {
-        ManipulatorServo.position = pos
+        ManipulatorServoLeft.position = pos
+        ManipulatorServoRight.position = pos
     }
     fun moveSetPos(pos: Double) {
         MoveServo.position = pos
