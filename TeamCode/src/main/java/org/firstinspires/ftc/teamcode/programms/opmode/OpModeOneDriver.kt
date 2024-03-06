@@ -96,28 +96,37 @@ class OpModeOneDriver : LinearOpMode() {
             }
 
             // Check the gamepad buttons and open/close the manipulator
-            if (gamepad1.b) {
+            if (gamepad1.left_bumper) {
                 if (robot!!.manipulator.ManipulatorServoLeft.position == robot!!.manipulator.LeftmaxPos) {
                     println("Manipulator is already closed.")
                 } else {
                     robot!!.manipulator.setPosAll(closePosL, closePosR)
-                    sleep(500)
-                    robot!!.manipulator.moveSetPos(moveClosePos)
                 }
             }
-            else if (gamepad1.x) {
+            else if (gamepad1.right_bumper) {
                 if (robot!!.manipulator.ManipulatorServoLeft.position == robot!!.manipulator.LeftminPos) {
                     println("Manipulator is already opened.")
                 } else {
                     robot!!.manipulator.setPosAll(openPosL, openPosR)
                 }
             }
-            else if (gamepad1.a) {
+            else if (gamepad1.right_trigger > 0.5) {
                 robot!!.manipulator.moveSetPos(moveOpenPos)
             }
-            else if (gamepad1.y) {
-                robot!!.manipulator.LeftHangServo.position = openPosLeft
-                robot!!.manipulator.RightHangServo.position = openPosRight
+            else if (gamepad1.left_trigger > 0.5) {
+                robot!!.manipulator.moveSetPos(moveClosePos)
+            }
+            else if(gamepad1.y) {
+                robot!!.manipulator.setPosAll(robot!!.manipulator.ManipulatorServoLeft.position, closePosR)
+            }
+            else if(gamepad1.b) {
+                robot!!.manipulator.setPosAll(robot!!.manipulator.ManipulatorServoLeft.position, openPosR)
+            }
+            else if(gamepad1.x) {
+                robot!!.manipulator.setPosAll(closePosL, robot!!.manipulator.ManipulatorServoRight.position)
+            }
+            else if(gamepad1.b) {
+                robot!!.manipulator.setPosAll(openPosL, robot!!.manipulator.ManipulatorServoRight.position)
             }
 
 
