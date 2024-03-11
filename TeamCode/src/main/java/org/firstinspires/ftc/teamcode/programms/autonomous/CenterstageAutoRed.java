@@ -146,9 +146,5 @@ public class CenterstageAutoRed extends LinearOpMode {
 
         }
 
-        telemetry.addData("1", Double.toString(robot.wheelBase.forwardError));
-            telemetry.addData("2", Double.toString(robot.wheelBase.sideError));
-            telemetry.addData("3", Double.toString(robot.wheelBase.angleError));
-            telemetry.update();
         }
     }

@@ -5,6 +5,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.IMU
+import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference
@@ -21,6 +22,12 @@ class WheelBase(var robot: Robot) {
         var sideK = 0.12
         @JvmField
         var angleK = 0.06
+        @JvmField
+        var forwardKD = 0.07
+        @JvmField
+        var sideKD = 0.12
+        @JvmField
+        var angleKD = 0.06
 
     }
     // Declare each motor in drivetrain
@@ -39,13 +46,14 @@ class WheelBase(var robot: Robot) {
     private val cmToEncoder = 480 / wheelLength
     var forwardDistance: Double = 0.0
     var sideDistance: Double = 0.0
-    @JvmField
-    var forwardError: Double = 0.0
-    @JvmField
-    var sideError: Double = 0.0
     var angleDistance: Double = 0.0
-    @JvmField
+    var forwardError: Double = 0.0
+    var sideError: Double = 0.0
     var angleError: Double = 0.0
+    var old_forwardError: Double = 0.0
+    var old_sideError: Double = 0.0
+    var old_angleError: Double = 0.0
+    private var _deltaTime = ElapsedTime()
 
     init {
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -115,6 +123,40 @@ class WheelBase(var robot: Robot) {
         rightBackDrive.power = direction + side - rotation
     }
 
+    fun moveEncoderPD(cmForward: Double, cmSide: Double, Angle: Double, power: Double) {
+        start()
+        resetEncoder()
+        do {
+            forwardDistance = (leftBackDrive.currentPosition + rightBackDrive.currentPosition + rightFrontDrive.currentPosition + leftFrontDrive.currentPosition) / 4.0 / cmToEncoder
+            sideDistance = (leftFrontDrive.currentPosition - leftBackDrive.currentPosition - rightFrontDrive.currentPosition + rightBackDrive.currentPosition) / 4.0 / cmToEncoder
+            angleDistance = getGyroAngle()
+            forwardError = cmForward - forwardDistance
+            sideError = cmSide - sideDistance
+            angleError = Angle - angleDistance
+            var forwardD = (forwardError - old_forwardError) * forwardKD  * _deltaTime.seconds()
+            var sideD = (sideError - old_sideError) * sideKD  * _deltaTime.seconds()
+            var angleD = (angleError - old_angleError) * angleKD  * _deltaTime.seconds()
+            while (abs(angleError) > 180)
+                angleError -= angleError.sign * 360
+
+            robot!!.linearOpMode.telemetry.let {
+                it.addData("sideError", sideError)
+                it.addData("forwardError", forwardError)
+                it.addData("angleError", angleError)
+                it.update()
+            }
+
+
+            move(
+                    (forwardError * forwardK * power) + (forwardD * power), (sideError * sideK * power) + (sideD * power), (angleError * angleK * power) + (angleD * power)
+            )
+
+        } while((abs(sideError) > 0.5 || abs(forwardError) > 0.5 || abs(angleError) > 1) && robot.linearOpMode.opModeIsActive())
+        old_sideError = sideError
+        old_forwardError = forwardError
+        old_angleError = angleError
+        _deltaTime.reset()
+    }
     fun moveEncoder(cmForward: Double, cmSide: Double, Angle: Double, power: Double) {
         resetEncoder()
         do {
@@ -153,5 +195,8 @@ class WheelBase(var robot: Robot) {
         rightFrontDrive.power = rightFrontPower
         leftBackDrive.power = leftBackPower
         rightBackDrive.power = rightBackPower
+    }
+    fun start() {
+        _deltaTime.reset()
     }
 }

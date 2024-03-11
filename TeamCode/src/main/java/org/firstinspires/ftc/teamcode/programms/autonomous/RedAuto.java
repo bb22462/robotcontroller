@@ -188,10 +188,6 @@ public class RedAuto extends LinearOpMode {
             robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
         }
 
-        telemetry.addData("1", Double.toString(robot.wheelBase.forwardError));
-        telemetry.addData("2", Double.toString(robot.wheelBase.sideError));
-        telemetry.addData("3", Double.toString(robot.wheelBase.angleError));
-        telemetry.update();
 
         sleep(10000);
     }
