@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple
 class Lift(var robot: Robot) {
     companion object {
         @JvmField
-        var bottom = 0;
+        var bottom = -130;
         @JvmField
-        var up = -1800;
+        var up = 1500;
     }
     private val spoolRadiusMm = 25.0
     private val spoolCircumference = spoolRadiusMm * 2.0 * Math.PI
@@ -35,10 +35,10 @@ class Lift(var robot: Robot) {
         lift.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
     }
     private fun encoderPowerLimit(power: Double): Double {
-        return if(power < 0 && (lift.currentPosition >= bottom)) {
+        return if(power < 0 && (lift.currentPosition <= bottom)) {
             0.0
         }
-        else if (power > 0 && (lift.currentPosition <= up)) {
+        else if (power > 0 && (lift.currentPosition >= up)) {
             0.0
         }
         else {

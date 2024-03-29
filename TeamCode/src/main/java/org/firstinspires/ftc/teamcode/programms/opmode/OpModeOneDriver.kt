@@ -38,6 +38,10 @@ class OpModeOneDriver : LinearOpMode() {
         var moveClosePos = 0.3
         @JvmField
         var moveOpenPos = 0.77
+        @JvmField
+        var planeClose = 0.1
+        @JvmField
+        var planeOpen = 0.6
     }
 
     private val runtime = ElapsedTime();
@@ -133,6 +137,7 @@ class OpModeOneDriver : LinearOpMode() {
             else {
                 robot!!.lift.setPower(0.0)
             }
+
             //Sensors
             if(robot!!.sensor.sensorRight.voltage < 0.12) {
                 robot!!.wheelBase.rightLight.power = 1.0
@@ -168,16 +173,19 @@ class OpModeOneDriver : LinearOpMode() {
                 robot!!.hang.right_servo.position = open_pos_right
             }
 
+            if(gamepad2.left_bumper) {
+                robot!!.manipulator.moveSamolet(planeClose)
+            }
+            if(gamepad2.right_bumper) {
+                robot!!.manipulator.moveSamolet(planeOpen)
+            }
+
             // Send calculated power to wheels
             robot!!.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)
             // Show the elapsed game time, wheel power and manipulator's position.
             telemetry.let {
                 it.addData("Status", "Run Time: $runtime")
-                it.addData("Left Front Wheel", "Position: ${robot!!.wheelBase.leftFrontDrive.currentPosition}")
-                it.addData("Left Back Wheel", "Position: ${robot!!.wheelBase.leftBackDrive.currentPosition}")
-                it.addData("Right Front Wheel", "Position: ${robot!!.wheelBase.rightFrontDrive.currentPosition}")
-                it.addData("Right Back Wheel", "Position: ${robot!!.wheelBase.rightBackDrive.currentPosition}")
-                it.addData("Left", "Position: ${robot!!.manipulator.MoveServo.position}")
+                it.addData("Lift", "Position: ${robot!!.lift.lift.currentPosition}")
                 it.update()
             }
         }

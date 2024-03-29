@@ -29,14 +29,18 @@
 
 package org.firstinspires.ftc.teamcode.programms.autonomous;
 
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.closePosL;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.closePosR;
 import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.moveClosePos;
-import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.openPos;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.openPosL;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.openPosR;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.programms.autonomous.values.RedAutoValues;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
 /*
@@ -53,7 +57,7 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
  * Also note that it is critical to set the correct rotation direction for each motor.  See details below.
  *
  * Holonomic drives provide the ability for the robot to move in three axes (directions) simultaneously.
- * Each motion axis is controlled by one Joystick axis.
+ * Each motion axis is controlled by three Joystick axis.
  *
  * 1) Axial:    Driving forward and backward               Left-joystick Forward/Backward
  * 2) Lateral:  Strafing right and left                     Left-joystick Right and Left
@@ -76,7 +80,6 @@ public class RedAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         robot = new Robot(this);
         // Wait for the game to start (driver presses PLAY)
         robot.camera.initCamera(1);
@@ -99,93 +102,120 @@ public class RedAuto extends LinearOpMode {
 
         runtime.reset();
 
-        if(tag == 1) {
-            robot.manipulator.setPos(0.38);
-            sleep(1000);
-            robot.manipulator.moveSetPos(moveClosePos);
-            sleep(2000);
+        robot.manipulator.setPosRight(closePosR);
+        robot.manipulator.setPosLeft(closePosL);
+        sleep(500);
+        robot.manipulator.moveSetPos(moveClosePos);
+        sleep(500);
 
-            // run until the end of the match (driver presses STOP)
-            robot.wheelBase.moveEncoder(46, 0, 0, 0.7);
+        if(tag == 1) {
+            // Forward
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_one_1_forward, 0, 0, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+
+            // Turn
+            robot.wheelBase.moveEncoderPD(0, 0, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(75, 0, 90, 0.7);
+
+            // Forward to scene
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_one_2_forward, 0, 90, 0.7);
             sleep(1000);
+
+            // Lift up
             robot.lift.setPower(1);
             sleep(350);
             robot.lift.setPower(0);
             sleep(1000);
-            robot.manipulator.setPos(openPos);
+
+            // Open manipulator
+            robot.manipulator.setPosRight(openPosR);
+            robot.manipulator.setPosLeft(openPosL);
             sleep(1000);
-            robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+
+            // Go backward
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_one_3_forward, 0, 90, 0.7);
             sleep(1000);
+
+            // Lift down
             robot.lift.setPower(-1);
             sleep(400);
             robot.lift.setPower(0);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 44, 90, 0.7);
+
+            // Go side
+            robot.wheelBase.moveEncoderPD(0, RedAutoValues.tag_one_4_side, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
+
+            // Go forward
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_one_5_forward, 0, 90, 0.7);
         }
         else if(tag == 2) {
-            robot.manipulator.setPos(0.38);
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_two_1_forward, 0, 0, 0.7);
             sleep(1000);
-            robot.manipulator.moveSetPos(moveClosePos);
-            sleep(2000);
 
-            // run until the end of the match (driver presses STOP)
-            robot.wheelBase.moveEncoder(44, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(0, 0, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_two_2_forward, 0, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(75, 0, 90, 0.7);
-            sleep(1000);
+
             robot.lift.setPower(1);
             sleep(350);
+
             robot.lift.setPower(0);
             sleep(1000);
-            robot.manipulator.setPos(openPos);
+
+            robot.manipulator.setPosRight(openPosR);
+            robot.manipulator.setPosLeft(openPosL);
             sleep(1000);
-            robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_two_3_forward, 0, 90, 0.7);
             sleep(1000);
+
             robot.lift.setPower(-1);
             sleep(400);
+
             robot.lift.setPower(0);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 42, 90, 0.7);
+
+            robot.wheelBase.moveEncoderPD(0, RedAutoValues.tag_two_4_side, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
+
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_two_5_forward, 0, 90, 0.7);
         }
         else if(tag == 3) {
-            robot.manipulator.setPos(0.38);
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_three_1_forward, 0, 0, 0.7);
             sleep(1000);
-            robot.manipulator.moveSetPos(moveClosePos);
-            sleep(2000);
 
-            // run until the end of the match (driver presses STOP)
-            robot.wheelBase.moveEncoder(42, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(0, 0, 90, 0.7);
             sleep(1000);
-            
-            robot.wheelBase.moveEncoder(0, 0, 90, 0.7);
+
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_three_2_forward, 0, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(75, 0, 90, 0.7);
-            sleep(1000);
+
             robot.lift.setPower(1);
             sleep(350);
+
             robot.lift.setPower(0);
             sleep(1000);
-            robot.manipulator.setPos(openPos);
+
+            robot.manipulator.setPosRight(openPosR);
+            robot.manipulator.setPosLeft(openPosL);
             sleep(1000);
-            robot.wheelBase.moveEncoder(-40, 0, 90, 0.7);
+
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_three_3_forward, 0, 90, 0.7);
             sleep(1000);
+
             robot.lift.setPower(-1);
             sleep(400);
+
             robot.lift.setPower(0);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 40, 90, 0.7);
+
+            robot.wheelBase.moveEncoderPD(0, RedAutoValues.tag_three_4_side, 90, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(40, 0, 90, 0.7);
+
+            robot.wheelBase.moveEncoderPD(RedAutoValues.tag_three_5_forward, 0, 90, 0.7);
         }
 
 
