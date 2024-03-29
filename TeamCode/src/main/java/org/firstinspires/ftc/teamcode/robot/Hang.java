@@ -1,10 +1,15 @@
 package org.firstinspires.ftc.teamcode.robot;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
+@Config
 public class Hang {
+    public static double close_pos_left = 0.0;
+    public static double open_pos_left = 0.0;
+    public static double close_pos_right = 0.0;
+    public static double open_pos_right= 0.0;
     DcMotor hang;
     public Servo left_servo;
     public Servo right_servo;

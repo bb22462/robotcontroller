@@ -100,7 +100,7 @@ public class PDTest extends LinearOpMode {
         runtime.reset();
 
 
-        robot.wheelBase.moveEncoderPD(20, 0, 0, 0.7);
+        robot.wheelBase.moveEncoderPD(0, 0, 90, 0.7);
 
 
         sleep(10000);

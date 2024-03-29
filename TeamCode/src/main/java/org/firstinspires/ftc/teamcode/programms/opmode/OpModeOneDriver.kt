@@ -6,6 +6,10 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.ElapsedTime
+import org.firstinspires.ftc.teamcode.robot.Hang.close_pos_left
+import org.firstinspires.ftc.teamcode.robot.Hang.close_pos_right
+import org.firstinspires.ftc.teamcode.robot.Hang.open_pos_left
+import org.firstinspires.ftc.teamcode.robot.Hang.open_pos_right
 import org.firstinspires.ftc.teamcode.robot.Robot
 import kotlin.math.abs
 import kotlin.math.max
@@ -27,7 +31,7 @@ class OpModeOneDriver : LinearOpMode() {
         @JvmField
         var closePosR = 0.6
         @JvmField
-        var openPosR = 0.4
+        var openPosR = 0.3
         @JvmField
         var openPos = 0.7
         @JvmField
@@ -142,6 +146,26 @@ class OpModeOneDriver : LinearOpMode() {
             }
             else {
                 robot!!.wheelBase.leftLight.power = 0.0
+            }
+
+
+            if(gamepad2.y) {
+                robot!!.hang.setPower(1.0)
+            }
+            else if(gamepad2.a) {
+                robot!!.hang.setPower(-1.0)
+            }
+            else {
+                robot!!.hang.setPower(0.0);
+            }
+
+            if (gamepad2.x) {
+                robot!!.hang.left_servo.position = close_pos_left
+                robot!!.hang.right_servo.position = close_pos_right
+            }
+            else if (gamepad2.b) {
+                robot!!.hang.left_servo.position = open_pos_left
+                robot!!.hang.right_servo.position = open_pos_right
             }
 
             // Send calculated power to wheels
