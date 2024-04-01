@@ -23,11 +23,11 @@ class WheelBase(var robot: Robot) {
         @JvmField
         var angleK = 0.06
         @JvmField
-        var forwardKD = 0.07
+        var forwardKD = 0.02
         @JvmField
         var sideKD = 0.12
         @JvmField
-        var angleKD = 0.06
+        var angleKD = 0.02
 
     }
     // Declare each motor in drivetrain

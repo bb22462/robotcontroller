@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.robot.Robot
 
-@Disabled
+
 @Autonomous(name = "Autonomous R")
 class AutonomousR : LinearOpMode() {
     private val runtime = ElapsedTime()
@@ -27,9 +27,7 @@ class AutonomousR : LinearOpMode() {
 
 
         // Drive to the parking
-        robot!!.wheelBase.move(0.0, 0.5, 0.0)
-        sleep(3000)
-        robot!!.wheelBase.move(0.0,0.0, 0.0)
+        robot!!.wheelBase.moveEncoderPD(0.0, 0.0, 90.0, 0.7)
 
         telemetry.let {
             it.addData("Status", "Run Time: $runtime")

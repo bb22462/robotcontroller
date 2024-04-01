@@ -29,6 +29,11 @@
 
 package org.firstinspires.ftc.teamcode.programms.autonomous.old;
 
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.closePosL;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.closePosR;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.openPosL;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.openPosR;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -68,12 +73,11 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 @Config
 public class CenterstageAutoRed extends LinearOpMode {
 
-    public static Double forwardDist = 42.5;
-    public static Double forwardDistOt = 46.5;
+    public static Double forwardDist = 59.0;
+    public static Double forwardDistOt = 58.0;
     public static Double turnDist = 1.0;
-
     public static Double turnThree = 90.0;
-    public static Double turnOne = 270.0;
+    public static Double turnOne = 90.0;
     public static double moveClosePos = 0.3;
 
     // Declare OpMode members for each of the 4 motors.
@@ -105,46 +109,45 @@ public class CenterstageAutoRed extends LinearOpMode {
 
         runtime.reset();
 
-        robot.manipulator.setPos(0.38);
-        sleep(1000);
-        robot.manipulator.moveSetPos(moveClosePos);
-        sleep(2000);
+        robot.manipulator.setPosRight(closePosR);
+        robot.manipulator.setPosLeft(closePosL);
+        sleep(500);
 
         // run until the end of the match (driver presses STOP)
         if(tag == 2) {
-            robot.wheelBase.moveEncoder(forwardDist, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(forwardDist, 0, 0.0, 0.7);
             sleep(1000);
-            robot.manipulator.moveSetPos(0.2);
-            sleep(2000);
-            robot.manipulator.setPos(0.75);
+            robot.wheelBase.moveEncoderPD(0, 0, 0, 0.7);
+            sleep(1000);
+            robot.manipulator.setPosRight(openPosR);
+            robot.manipulator.setPosLeft(openPosL);
+            sleep(1000);
+            robot.wheelBase.moveEncoderPD(0, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(-forwardDist, 0, 0, 0.7);
         }
         else if(tag == 1) {
+            robot.wheelBase.moveEncoderPD(forwardDistOt, 0, 0.0, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(0, 0, -turnOne, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, turnOne, 0.7);
+            robot.manipulator.setPosRight(openPosR);
+            robot.manipulator.setPosLeft(openPosL);
             sleep(1000);
-            robot.wheelBase.moveEncoder(turnDist, 0, turnOne, 0.7);
-            sleep(1000);
-            robot.manipulator.moveSetPos(0.2);
-            sleep(2000);
-            robot.manipulator.setPos(0.75);
-
+            robot.wheelBase.moveEncoderPD(0, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(-forwardDistOt, 0, 0, 0.7);
         }
         else if(tag == 3) {
 
+            robot.wheelBase.moveEncoderPD(forwardDistOt, 0, 0.0, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(0, 0, turnOne, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, turnThree, 0.7);
+            robot.manipulator.setPosRight(openPosR);
+            robot.manipulator.setPosLeft(openPosL);
             sleep(1000);
-            robot.wheelBase.moveEncoder(turnDist, 0, turnThree, 0.7);
-            sleep(1000);
-            robot.manipulator.moveSetPos(0.2);
-            sleep(2000);
-            robot.manipulator.setPos(0.75);
-
+            robot.wheelBase.moveEncoderPD(0, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(-forwardDistOt, 0, 0, 0.7);
         }
-
+        robot.wheelBase.moveEncoderPD(0, 70, 0, 0.7);
         }
     }

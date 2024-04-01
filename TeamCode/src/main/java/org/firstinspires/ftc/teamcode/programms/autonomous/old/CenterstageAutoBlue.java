@@ -29,9 +29,12 @@
 
 package org.firstinspires.ftc.teamcode.programms.autonomous.old;
 
-import com.acmerobotics.dashboard.FtcDashboard;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.closePosL;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.closePosR;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.openPosL;
+import static org.firstinspires.ftc.teamcode.programms.opmode.OpModeOneDriver.openPosR;
+
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -66,16 +69,16 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue Alliance Autonomous", group="Linear OpMode")
+@Autonomous(name="BLUBLU 24 Alliance Autonomous", group="Linear OpMode")
 @Config
 public class CenterstageAutoBlue extends LinearOpMode {
 
-    public static Double forwardDist = 40.0;
-    public static Double forwardDistOt = 44.0;
+    public static Double forwardDist = 58.0;
+    public static Double forwardDistOt = 58.0;
     public static Double turnDist = 1.0;
 
     public static Double turnThree = 90.0;
-    public static Double turnOne = 270.0;
+    public static Double turnOne = 90.0;
     public static double moveClosePos = 0.3;
 
     // Declare OpMode members for each of the 4 motors.
@@ -85,10 +88,10 @@ public class CenterstageAutoBlue extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
         robot = new Robot(this);
         // Wait for the game to start (driver presses PLAY)
-        robot.camera.initCamera(2);
+        robot.camera.initCamera(1);
         runtime.reset();
 
         // Wait for the game to start (driver presses PLAY)
@@ -97,7 +100,7 @@ public class CenterstageAutoBlue extends LinearOpMode {
 
         while (!isStarted() && !isStopRequested()) {
             robot.lift.resetEncoder();
-            tag = robot.camera.findBlue();
+            tag = robot.camera.findRed();
             telemetry.addData("gyro", robot.wheelBase.getGyroAngle());
             telemetry.addData("Camera", Integer.toString(tag));
             telemetry.update();
@@ -107,46 +110,45 @@ public class CenterstageAutoBlue extends LinearOpMode {
 
         runtime.reset();
 
-        robot.manipulator.setPos(0.38);
-        sleep(1000);
-        robot.manipulator.moveSetPos(moveClosePos);
-        sleep(2000);
+        robot.manipulator.setPosRight(closePosR);
+        robot.manipulator.setPosLeft(closePosL);
+        sleep(500);
 
         // run until the end of the match (driver presses STOP)
         if(tag == 2) {
-            robot.wheelBase.moveEncoder(forwardDist, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(forwardDistOt, 0, 0.0, 0.7);
             sleep(1000);
-            robot.manipulator.moveSetPos(0.2);
-            sleep(2000);
-            robot.manipulator.setPos(0.75);
+            robot.wheelBase.moveEncoderPD(0, 0, 0, 0.7);
+            sleep(1000);
+            robot.manipulator.setPosRight(openPosR);
+            robot.manipulator.setPosLeft(openPosL);
+            sleep(1000);
+            robot.wheelBase.moveEncoderPD(0, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(-forwardDist, 0, 0, 0.7);
         }
         else if(tag == 1) {
+            robot.wheelBase.moveEncoderPD(forwardDistOt, 0, 0.0, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(0, 0, -turnOne, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, turnOne, 0.7);
+            robot.manipulator.setPosRight(openPosR);
+            robot.manipulator.setPosLeft(openPosL);
             sleep(1000);
-            robot.wheelBase.moveEncoder(turnDist, 0, turnOne, 0.7);
-            sleep(1000);
-            robot.manipulator.moveSetPos(0.2);
-            sleep(2000);
-            robot.manipulator.setPos(0.75);
-
+            robot.wheelBase.moveEncoderPD(0, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(-forwardDist, 0, 0, 0.7);
         }
         else if(tag == 3) {
 
+            robot.wheelBase.moveEncoderPD(forwardDistOt, 0, 0.0, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(forwardDistOt, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(0, 0, turnOne, 0.7);
             sleep(1000);
-            robot.wheelBase.moveEncoder(0, 0, turnThree, 0.7);
+            robot.manipulator.setPosRight(openPosR);
+            robot.manipulator.setPosLeft(openPosL);
             sleep(1000);
-            robot.wheelBase.moveEncoder(turnDist, 0, turnThree, 0.7);
-            sleep(1000);
-            robot.manipulator.moveSetPos(0.2);
-            sleep(2000);
-            robot.manipulator.setPos(0.75);
-
+            robot.wheelBase.moveEncoderPD(0, 0, 0, 0.7);
+            robot.wheelBase.moveEncoderPD(-forwardDist, 0, 0, 0.7);
         }
-
+        robot.wheelBase.moveEncoderPD(0, -70, 0, 0.7);
     }
 }
