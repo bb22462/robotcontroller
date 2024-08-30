@@ -107,10 +107,10 @@ class OpModeOneDriver : LinearOpMode() {
                 }
             }
             else if (gamepad1.right_trigger > 0.5) {
-                robot!!.manipulator.moveSetPos(moveOpenPos)
+                robot!!.manipulator.setVerticalPos(moveOpenPos)
             }
             else if (gamepad1.left_trigger > 0.5) {
-                robot!!.manipulator.moveSetPos(moveClosePos)
+                robot!!.manipulator.setVerticalPos(moveClosePos)
             }
             else if(gamepad1.y) {
                 robot!!.manipulator.setPosRight(closePosR)
