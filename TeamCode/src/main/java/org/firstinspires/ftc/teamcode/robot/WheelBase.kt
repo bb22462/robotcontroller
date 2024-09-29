@@ -28,31 +28,38 @@ class WheelBase(var robot: Robot) {
         var sideKD = 0.12
         @JvmField
         var angleKD = 0.02
-
     }
-    // Declare each motor in drivetrain
+
+    // IMU
     @JvmField
     public var imu: IMU = robot.linearOpMode.hardwareMap.get<IMU>(IMU::class.java, "imu")
+    @JvmField
+    public var IMUparameters: IMU.Parameters? = null
+
+    // Drives
     var leftFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_front_drive")
     var rightFrontDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_front_drive")
     var leftBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_back_drive")
     var rightBackDrive: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_back_drive")
-    public var leftLight: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "left_light")
-    public var rightLight: DcMotor = robot.linearOpMode.hardwareMap.get(DcMotor::class.java, "right_light")
+
+    // Encoder variables
     private val wheelRadius = 4.917
-    @JvmField
-    public var IMUparameters: IMU.Parameters? = null
     private val wheelLength = wheelRadius * 2 * Math.PI
     private val cmToEncoder = 480 / wheelLength
+
+    // Moving variables
+    // Errors
     var forwardDistance: Double = 0.0
     var sideDistance: Double = 0.0
     var angleDistance: Double = 0.0
     var forwardError: Double = 0.0
     var sideError: Double = 0.0
     var angleError: Double = 0.0
+    // Old errors for PD
     var old_forwardError: Double = 0.0
     var old_sideError: Double = 0.0
     var old_angleError: Double = 0.0
+
     private var _deltaTime = ElapsedTime()
 
     init {
@@ -123,6 +130,17 @@ class WheelBase(var robot: Robot) {
         rightBackDrive.power = direction + side - rotation
     }
 
+    public fun getGyroAngle(): Double {
+        return -imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
+    }
+
+    public fun setPowerAll(leftFrontPower: Double, rightFrontPower: Double, leftBackPower: Double, rightBackPower: Double) {
+        leftFrontDrive.power = leftFrontPower
+        rightFrontDrive.power = rightFrontPower
+        leftBackDrive.power = leftBackPower
+        rightBackDrive.power = rightBackPower
+    }
+
     fun moveEncoderPD(cmForward: Double, cmSide: Double, Angle: Double, power: Double) {
         start()
         resetEncoder()
@@ -157,6 +175,7 @@ class WheelBase(var robot: Robot) {
         old_angleError = angleError
         _deltaTime.reset()
     }
+
     fun moveEncoder(cmForward: Double, cmSide: Double, Angle: Double, power: Double) {
         resetEncoder()
         do {
@@ -184,18 +203,6 @@ class WheelBase(var robot: Robot) {
         } while((abs(sideError) > 0.5 || abs(forwardError) > 0.5 || abs(angleError) > 1) && robot.linearOpMode.opModeIsActive())
     }
 
-
-    public fun getGyroAngle(): Double {
-        return -imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle.toDouble()
-    }
-
-
-    public fun setPowerAll(leftFrontPower: Double, rightFrontPower: Double, leftBackPower: Double, rightBackPower: Double) {
-        leftFrontDrive.power = leftFrontPower
-        rightFrontDrive.power = rightFrontPower
-        leftBackDrive.power = leftBackPower
-        rightBackDrive.power = rightBackPower
-    }
     fun start() {
         _deltaTime.reset()
     }

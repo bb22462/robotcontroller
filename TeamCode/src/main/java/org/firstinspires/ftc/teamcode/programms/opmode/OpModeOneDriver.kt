@@ -6,10 +6,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.util.ElapsedTime
-import org.firstinspires.ftc.teamcode.robot.Hang.close_pos_left
-import org.firstinspires.ftc.teamcode.robot.Hang.close_pos_right
-import org.firstinspires.ftc.teamcode.robot.Hang.open_pos_left
-import org.firstinspires.ftc.teamcode.robot.Hang.open_pos_right
 import org.firstinspires.ftc.teamcode.robot.Robot
 import kotlin.math.abs
 import kotlin.math.max
@@ -59,7 +55,6 @@ class OpModeOneDriver : LinearOpMode() {
             it.update()
         }
         // Wait for the game to start (driver presses PLAY)
-        robot!!.lift.resetEncoder();
         waitForStart()
         runtime.reset()
 
@@ -91,101 +86,11 @@ class OpModeOneDriver : LinearOpMode() {
                 rightBackPower /= max
             }
 
-            // Check the gamepad buttons and open/close the manipulator
-            if (gamepad1.left_bumper) {
-                if (robot!!.manipulator.ManipulatorServoLeft.position == robot!!.manipulator.LeftmaxPos) {
-                    println("Manipulator is already closed.")
-                } else {
-                    robot!!.manipulator.setPosAll(closePosL, closePosR)
-                }
-            }
-            else if (gamepad1.right_bumper) {
-                if (robot!!.manipulator.ManipulatorServoLeft.position == robot!!.manipulator.LeftminPos) {
-                    println("Manipulator is already opened.")
-                } else {
-                    robot!!.manipulator.setPosAll(openPosL, openPosR)
-                }
-            }
-            else if (gamepad1.right_trigger > 0.5) {
-                robot!!.manipulator.setVerticalPos(moveOpenPos)
-            }
-            else if (gamepad1.left_trigger > 0.5) {
-                robot!!.manipulator.setVerticalPos(moveClosePos)
-            }
-            else if(gamepad1.y) {
-                robot!!.manipulator.setPosRight(closePosR)
-            }
-            else if(gamepad1.b) {
-                robot!!.manipulator.setPosRight(openPosR)
-            }
-            else if(gamepad1.x) {
-                robot!!.manipulator.setPosLeft(closePosL)
-            }
-            else if(gamepad1.a) {
-                robot!!.manipulator.setPosLeft(openPosL)
-            }
-
-
-
-            // Check the gamepad buttons and move the lift up down
-            if (gamepad1.dpad_up) {
-                robot!!.lift.setPower(1.0)
-            }
-            else if (gamepad1.dpad_down) {
-                robot!!.lift.setPower(-1.0)
-            }
-            else {
-                robot!!.lift.setPower(0.0)
-            }
-
-            //Sensors
-            if(robot!!.sensor.sensorRight.voltage < 0.12) {
-                robot!!.wheelBase.rightLight.power = 1.0
-            }
-            else {
-                robot!!.wheelBase.rightLight.power = 0.0
-            }
-
-            if(robot!!.sensor.sensorLeft.voltage < 0.12) {
-                robot!!.wheelBase.leftLight.power = 1.0
-            }
-            else {
-                robot!!.wheelBase.leftLight.power = 0.0
-            }
-
-
-            if(gamepad2.y) {
-                robot!!.hang.setPower(1.0)
-            }
-            else if(gamepad2.a) {
-                robot!!.hang.setPower(-1.0)
-            }
-            else {
-                robot!!.hang.setPower(0.0);
-            }
-
-            if (gamepad2.x) {
-                robot!!.hang.left_servo.position = close_pos_left
-                robot!!.hang.right_servo.position = close_pos_right
-            }
-            else if (gamepad2.b) {
-                robot!!.hang.left_servo.position = open_pos_left
-                robot!!.hang.right_servo.position = open_pos_right
-            }
-
-            if(gamepad2.left_bumper) {
-                robot!!.manipulator.moveSamolet(planeClose)
-            }
-            if(gamepad2.right_bumper) {
-                robot!!.manipulator.moveSamolet(planeOpen)
-            }
-
             // Send calculated power to wheels
             robot!!.wheelBase.setPowerAll(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)
             // Show the elapsed game time, wheel power and manipulator's position.
             telemetry.let {
                 it.addData("Status", "Run Time: $runtime")
-                it.addData("Lift", "Position: ${robot!!.lift.lift.currentPosition}")
                 it.update()
             }
         }
